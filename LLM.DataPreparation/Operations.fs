@@ -12,8 +12,8 @@ module Operations =
         type ToVocabulary    = Text -> Vocabulary
         type ToEmbedding     = Text -> Vectors
 
-    module TokenedText = type ToTokens     = TokenedText -> Tokens
-    module Token       = type toText       = Token       -> Text
+    module TokenedText = type ToTokens = TokenedText -> Tokens
+    module Token       = type toText   = Token       -> Text
 
     module Vectors =
 
