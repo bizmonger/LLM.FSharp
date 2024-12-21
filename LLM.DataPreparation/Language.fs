@@ -1,5 +1,7 @@
 ﻿namespace LLM.DataPreparation
 
+open System.Collections.Generic
+
 module Language =
 
     type Text  = string
@@ -8,7 +10,7 @@ module Language =
 
     type Token   = int
     type Tokens  = Token seq
-    type Vocabulary = Map<Token,TokenedText>
+    type Vocabulary = Dictionary<Token,TokenedText>
     type Vector  = (int array)
     type Vectors = Vector seq
     type Embedding  = Vectors

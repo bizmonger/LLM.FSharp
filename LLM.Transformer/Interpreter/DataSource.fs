@@ -1,6 +1,5 @@
 ﻿namespace LLM.Transformer
 
-open System.Collections.Generic
 open Microsoft.ML;
 open LLM.DataPreparation.Language
 
@@ -12,7 +11,7 @@ module DataSource =
     [<CLIMutable>]
     type TokenizedData = { Tokens: TokenedText[] }
 
-    let toVocabulary (text:string) : Dictionary<Token,TokenedText> =
+    let toVocabulary (text:string) : Vocabulary =
 
         let mlContext = MLContext()
 
@@ -34,13 +33,13 @@ module DataSource =
             |> Seq.toList
 
         // Create dictionary of token IDs
-        let tokenDictionary = Dictionary<Token,TokenedText>()
+        let vocabulary = Vocabulary()
         let mutable tokenId = 0
 
         for row in tokenizedData do
             for token in row.Tokens do
-                if not (tokenDictionary.ContainsValue(token)) then
-                    tokenDictionary.[tokenId] <- token
+                if not (vocabulary.ContainsValue(token)) then
+                    vocabulary.[tokenId] <- token
                     tokenId <- tokenId + 1
 
-        tokenDictionary
+        vocabulary
