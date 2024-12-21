@@ -14,5 +14,5 @@ let ``encode something`` () =
 [<Test>]
 let ``decode something`` () =
 
-    Execute.decoder  "some text goes here."
+    Execute.decoder  "some text goes here." [||]
     |> should equal [||]
