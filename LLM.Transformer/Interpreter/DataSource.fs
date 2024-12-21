@@ -2,6 +2,7 @@
 
 open Microsoft.ML;
 open LLM.DataPreparation.Language
+open LLM.DataPreparation.Operations
 
 module DataSource =
 
@@ -11,35 +12,37 @@ module DataSource =
     [<CLIMutable>]
     type TokenizedData = { Tokens: TokenedText[] }
 
-    let toVocabulary (content:Text) : Vocabulary =
+    let toVocabulary : ToVocabulary =
 
-        let mlContext = MLContext()
+        fun content ->
 
-        let inputData = 
-            [ {Text= content} ]
-            |> mlContext.Data.LoadFromEnumerable
+            let mlContext = MLContext()
 
-        // Define text processing pipeline
-        let textPipeline = 
-            mlContext.Transforms.Text.TokenizeIntoWords("Tokens", "Text")
+            let inputData = 
+                [ {Text = content} ]
+                |> mlContext.Data.LoadFromEnumerable
 
-        // Fit and transform data
-        let transformer = textPipeline.Fit(inputData)
-        let transformedData = transformer.Transform(inputData)
+            // Define text processing pipeline
+            let textPipeline = 
+                mlContext.Transforms.Text.TokenizeIntoWords("Tokens", "Text")
 
-        // Extract tokens from transformed data
-        let tokenizedData = 
-            mlContext.Data.CreateEnumerable<TokenizedData>(transformedData, reuseRowObject = false)
-            |> Seq.toList
+            // Fit and transform data
+            let transformer = textPipeline.Fit(inputData)
+            let transformedData = transformer.Transform(inputData)
 
-        // Create dictionary of token IDs
-        let vocabulary = Vocabulary()
-        let mutable tokenId = 0
+            // Extract tokens from transformed data
+            let tokenizedData = 
+                mlContext.Data.CreateEnumerable<TokenizedData>(transformedData, reuseRowObject = false)
+                |> Seq.toList
 
-        for row in tokenizedData do
-            for token in row.Tokens do
-                if not (vocabulary.ContainsValue(token)) then
-                    vocabulary.[tokenId] <- token
-                    tokenId <- tokenId + 1
+            // Create dictionary of token IDs
+            let vocabulary = Vocabulary()
+            let mutable tokenId = 0
 
-        vocabulary
+            for row in tokenizedData do
+                for token in row.Tokens do
+                    if not (vocabulary.ContainsValue(token)) then
+                        vocabulary.[tokenId] <- token
+                        tokenId <- tokenId + 1
+
+            vocabulary
