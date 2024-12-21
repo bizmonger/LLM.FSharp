@@ -7,7 +7,7 @@ module Operations =
     type ToTokenizeText = Text        -> TokenedText
     type ToTokens       = TokenedText -> Tokens
     type ToTokenMap     = Text        -> (TokenedText * Tokens)
-    type Encode         = Text        -> Tokens
+    type Tokenize       = Text        -> Tokens
 
     type BuildVocabulary = Text -> Vocabulary
     type ToEmbedding     = Text -> Vectors

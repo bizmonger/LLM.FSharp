@@ -8,11 +8,11 @@ open NUnit.Framework
 [<Test>]
 let ``encode something`` () =
     
-    Execute.encoder "some text goes here."
+    Tokenizer.encode "some text goes here."
     |> should equal [||]
 
 [<Test>]
 let ``decode something`` () =
 
-    Execute.decoder  "some text goes here." [||]
+    Tokenizer.decode [||]
     |> should equal ""

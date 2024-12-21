@@ -2,12 +2,12 @@
 
 open Operations
 
-module Execute =
+module Tokenizer =
 
-    let encoder : Encode =
+    let encode : Encode =
 
         fun _ -> [||]
 
-    let decoder : Decode =
+    let decode : Decode =
 
-        fun _ _ -> "TODO"
+        fun _ -> "TODO"

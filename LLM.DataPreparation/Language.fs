@@ -3,8 +3,8 @@
 module Language =
 
     type Text  = string
-    type Word  = string
-    type TokenedText = string
+    type BytePairEncoding = string
+    type TokenedText = BytePairEncoding
 
     type Token   = int
     type Tokens  = Token seq
@@ -13,5 +13,4 @@ module Language =
     type Vectors = Vector seq
     type Embedding  = Vectors
 
-    type Prediction = Word
-    
+    type Prediction = TokenedText

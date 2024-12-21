@@ -6,6 +6,6 @@ module Operations =
 
     type Encode = Text -> Vectors
 
-    type Decode = Text -> Vectors -> Prediction
+    type Decode = Vectors -> Prediction
 
     type toText = Token -> Text
