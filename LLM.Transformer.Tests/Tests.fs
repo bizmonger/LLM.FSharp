@@ -16,3 +16,9 @@ let ``decode something`` () =
 
     Tokenizer.decode [||]
     |> should equal ""
+
+[<Test>]
+let ``build vocabulary`` () =
+
+    let result = DataSource.toVocabulary "some text goes here."
+    result |> should equal ""

@@ -7,7 +7,12 @@
 
   <ItemGroup>
     <Compile Include="Operations.fs" />
-    <Compile Include="Interpreter\Execute.fs" />
+    <Compile Include="Interpreter\DataSource.fs" />
+    <Compile Include="Interpreter\Tokenizer.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ML" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
