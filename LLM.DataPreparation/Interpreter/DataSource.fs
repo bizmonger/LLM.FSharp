@@ -27,7 +27,7 @@ module DataSource =
                 mlContext.Transforms.Text.TokenizeIntoWords("Tokens", "Text")
 
             // Fit and transform data
-            let transformer = textPipeline.Fit(inputData)
+            let transformer     = textPipeline.Fit(inputData)
             let transformedData = transformer.Transform(inputData)
 
             // Extract tokens from transformed data
