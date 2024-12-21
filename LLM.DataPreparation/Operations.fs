@@ -48,8 +48,7 @@ module Operations =
 
         module Vector =
 
-            type Size     = Vector -> int
-            type Elements = Vector -> int
+            type Size = Vector -> int
 
         module Vocabulary =
 
