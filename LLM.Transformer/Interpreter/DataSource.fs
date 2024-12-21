@@ -11,12 +11,12 @@ module DataSource =
     [<CLIMutable>]
     type TokenizedData = { Tokens: TokenedText[] }
 
-    let toVocabulary (text:string) : Vocabulary =
+    let toVocabulary (content:Text) : Vocabulary =
 
         let mlContext = MLContext()
 
         let inputData = 
-            [ {Text= text} ]
+            [ {Text= content} ]
             |> mlContext.Data.LoadFromEnumerable
 
         // Define text processing pipeline
