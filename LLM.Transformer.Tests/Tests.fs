@@ -1,6 +1,5 @@
 ﻿module LLM.Transformer.Tests
 
-open LLM.DataPreparation
 open FsUnit
 
 open NUnit.Framework
@@ -15,10 +14,10 @@ let ``encode something`` () =
 let ``decode something`` () =
 
     Tokenizer.decode [||]
-    |> should equal ""
+    |> should equal "?"
 
 [<Test>]
 let ``build vocabulary`` () =
 
     let result = DataSource.toVocabulary "some text goes here."
-    result |> should equal ""
+    result |> should equal "?"
