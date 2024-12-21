@@ -10,9 +10,11 @@ module Language =
 
     type Token   = int
     type Tokens  = Token seq
-    type Vocabulary = Dictionary<Token,TokenedText>
-    type Vector  = (int array)
-    type Vectors = Vector seq
-    type Embedding  = Vectors
+    type Vocabulary   = Dictionary<Token,TokenedText>
+    type Vector       = (int array)
+    type InputTokens  = Vector
+    type TargetTokens = Vector
+    type Vectors      = Vector seq
+    type Embedding    = Vectors
 
     type Prediction = TokenedText
