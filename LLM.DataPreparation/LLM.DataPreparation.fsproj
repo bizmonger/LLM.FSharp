@@ -6,12 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Language.fs" />
     <Compile Include="Operations.fs" />
-    <Compile Include="Interpreter\Execute.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\LLM.DataPreparation\LLM.DataPreparation.fsproj" />
   </ItemGroup>
 
 </Project>

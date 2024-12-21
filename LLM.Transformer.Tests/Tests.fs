@@ -1,6 +1,6 @@
 ﻿module LLM.Transformer.Tests
 
-open LLM.Transformer
+open LLM.DataPreparation
 open FsUnit
 
 open NUnit.Framework

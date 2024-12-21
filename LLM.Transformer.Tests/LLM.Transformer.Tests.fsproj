@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LLM.DataPreparation\LLM.DataPreparation.fsproj" />
     <ProjectReference Include="..\LLM.Transformer\LLM.Transformer.fsproj" />
   </ItemGroup>
 
