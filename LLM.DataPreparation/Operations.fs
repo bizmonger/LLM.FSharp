@@ -33,7 +33,7 @@ module Operations =
 
         module Tokens =
 
-            type Prediction = Create.InputTargetPair
+            type PredictionMap = Create.InputTargetPair
 
         module Vector =
 
