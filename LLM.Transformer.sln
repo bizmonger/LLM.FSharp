@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35514.174 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LLM.Transformer", "LLM.Transformer\LLM.Transformer.fsproj", "{B5A46A0A-3DFC-4AAE-B19A-B9076F7A98B7}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LLM.Transformer.Tests", "LLM.Transformer.Tests\LLM.Transformer.Tests.fsproj", "{FEDDE0B1-5DFE-483A-B6DA-D79E4F1F49B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5A46A0A-3DFC-4AAE-B19A-B9076F7A98B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5A46A0A-3DFC-4AAE-B19A-B9076F7A98B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5A46A0A-3DFC-4AAE-B19A-B9076F7A98B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5A46A0A-3DFC-4AAE-B19A-B9076F7A98B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEDDE0B1-5DFE-483A-B6DA-D79E4F1F49B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEDDE0B1-5DFE-483A-B6DA-D79E4F1F49B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEDDE0B1-5DFE-483A-B6DA-D79E4F1F49B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEDDE0B1-5DFE-483A-B6DA-D79E4F1F49B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Language.fs" />
+    <Compile Include="Operations.fs" />
+    <Compile Include="Interpreter\Execute.fs" />
+  </ItemGroup>
+
+</Project>
