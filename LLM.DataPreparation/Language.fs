@@ -24,3 +24,5 @@ module Language =
     type Prediction = TokenedText
     type Stride = int
     type DimensionCount = int
+    type MaxRowSize = int
+    type BatchSize = int

@@ -14,7 +14,11 @@ module Operations =
 
     module TokenedText = type ToTokens     = TokenedText -> Tokens
     module Token       = type toText       = Token       -> Text
-    module Vectors     = type PredictToken = Vectors -> Prediction
+
+    module Vectors =
+
+        type PredictToken = Vectors -> Prediction
+        type Add = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
 
     module Tokens = 
     
@@ -29,9 +33,10 @@ module Operations =
 
     module DataLoader =
 
-        module Create =
+        module Get =
 
             type InputTargetPair = Vocabulary -> InputTokens -> Stride -> InputTokens * TargetTokens
+            type TokenTensor     = Vocabulary -> Text -> BatchSize -> MaxRowSize -> Vectors
     
     module Get =
 
@@ -39,7 +44,7 @@ module Operations =
 
         module Tokens =
 
-            type InputTargetPair = Create.InputTargetPair
+            type InputTargetPair = Get.InputTargetPair
 
         module Vector =
 
