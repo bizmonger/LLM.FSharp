@@ -35,3 +35,8 @@ module Operations =
 
             type Size  = Vocabulary -> int
             type Items = Vocabulary -> (int * TokenedText) seq
+
+    module Transformer =
+
+        type Encode = Text.ToEmbedding
+        type Decode = Vectors.NextTokenPrediction
