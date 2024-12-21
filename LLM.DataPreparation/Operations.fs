@@ -17,8 +17,8 @@ module Operations =
 
     module Vectors =
 
-        type PredictToken = Vectors -> Prediction
-        type Add = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
+        type PredictToken     = Vectors -> Prediction
+        type ToInputEmbedding = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
 
     module Tokens = 
     
