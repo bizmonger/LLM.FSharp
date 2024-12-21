@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Language.fs" />
     <Compile Include="Operations.fs" />
     <Compile Include="Interpreter\DataSource.fs" />
     <Compile Include="Interpreter\Tokenizer.fs" />
@@ -14,6 +13,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ML" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LLM.DataPreparation\LLM.DataPreparation.fsproj" />
   </ItemGroup>
 
 </Project>

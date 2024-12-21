@@ -24,7 +24,12 @@ module Operations =
 
         type NextTokenPrediction = Vectors -> Prediction
 
-    module List =
+    module Tokenizer =
+
+        type Encode = Text.ToEmbedding
+        type Decode = Vectors.NextTokenPrediction
+
+    module Get =
 
         module Vector =
 
@@ -35,8 +40,3 @@ module Operations =
 
             type Size  = Vocabulary -> int
             type Items = Vocabulary -> (int * TokenedText) seq
-
-    module Transformer =
-
-        type Encode = Text.ToEmbedding
-        type Decode = Vectors.NextTokenPrediction
