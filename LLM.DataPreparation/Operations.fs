@@ -15,7 +15,12 @@ module Operations =
     module TokenedText = type ToTokens     = TokenedText -> Tokens
     module Token       = type toText       = Token       -> Text
     module Vectors     = type PredictToken = Vectors -> Prediction
-    module Tokens      = type ToEmbedding  = Tokens  -> Embedding
+
+    module Tokens = 
+    
+        type ToTokenEmbedding      = Tokens -> Vocabulary -> DimensionCount -> TokenEmbedding
+        type ToPositionalEmbedding = Tokens -> Vocabulary -> DimensionCount -> PositionalEmbedding
+        type ToInputEmbedding      = Tokens -> Vocabulary -> DimensionCount -> InputEmbedding
 
     module Tokenizer =
 

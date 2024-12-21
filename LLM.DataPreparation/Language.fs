@@ -14,8 +14,13 @@ module Language =
     type Vector       = (int array)
     type InputTokens  = Vector
     type TargetTokens = Vector
-    type Vectors      = Vector seq
+    type Vectors      = Vector array
     type Embedding    = Vectors
+
+    type TokenEmbedding      = Embedding
+    type PositionalEmbedding = Embedding
+    type InputEmbedding      = Embedding
 
     type Prediction = TokenedText
     type Stride = int
+    type DimensionCount = int
