@@ -1,13 +1,13 @@
 ﻿namespace LLM.Transformer
 
-open Operations
+open LLM.DataPreparation.Operations
 
 module Tokenizer =
 
-    let encode : Encode =
+    let encode : Text.ToEmbedding =
 
         fun _ -> [||]
 
-    let decode : Decode =
+    let decode : Vectors.NextTokenPrediction =
 
         fun _ -> "TODO"

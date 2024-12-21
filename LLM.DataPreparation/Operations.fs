@@ -4,13 +4,25 @@ open Language
 
 module Operations =
 
-    type ToTokenizeText = Text        -> TokenedText
-    type ToTokens       = TokenedText -> Tokens
-    type ToTokenMap     = Text        -> (TokenedText * Tokens)
-    type Tokenize       = Text        -> Tokens
+    module Text =
 
-    type ToVocabulary = Text -> Vocabulary
-    type ToEmbedding  = Text -> Vectors
+        type ToTokenizedText = Text -> TokenedText
+        type ToTokenMap      = Text -> (TokenedText * Tokens)
+        type ToTokens        = Text -> Tokens
+        type ToVocabulary    = Text -> Vocabulary
+        type ToEmbedding     = Text -> Vectors
+
+    module TokenedText =
+
+        type ToTokens = TokenedText -> Tokens
+
+    module Token =
+
+        type toText = Token -> Text
+
+    module Vectors =
+
+        type NextTokenPrediction = Vectors -> Prediction
 
     module List =
 

@@ -2,7 +2,7 @@
 
 open Microsoft.ML;
 open LLM.DataPreparation.Language
-open LLM.DataPreparation.Operations
+open LLM.DataPreparation
 
 module DataSource =
 
@@ -12,7 +12,7 @@ module DataSource =
     [<CLIMutable>]
     type TokenizedData = { Tokens: TokenedText[] }
 
-    let toVocabulary : ToVocabulary =
+    let toVocabulary : Operations.Text.ToVocabulary =
 
         fun content ->
 
