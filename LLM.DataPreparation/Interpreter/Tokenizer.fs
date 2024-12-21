@@ -8,6 +8,6 @@ module Tokenizer =
 
         fun _ -> [||]
 
-    let decode : Vectors.NextTokenPrediction =
+    let decode : Vectors.PredictToken =
 
         fun _ -> "TODO"

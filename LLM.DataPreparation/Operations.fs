@@ -12,20 +12,21 @@ module Operations =
         type ToVocabulary    = Text -> Vocabulary
         type ToEmbedding     = Text -> Vectors
 
-    module TokenedText  = type ToTokens = TokenedText -> Tokens
-    module Token        = type toText   = Token       -> Text
-    module Vectors      = type NextTokenPrediction = Vectors -> Prediction
+    module TokenedText = type ToTokens     = TokenedText -> Tokens
+    module Token       = type toText       = Token       -> Text
+    module Vectors     = type PredictToken = Vectors -> Prediction
+    module Tokens      = type ToEmbedding  = Tokens  -> Embedding
 
     module Tokenizer =
 
         type Encode = Text.ToEmbedding
-        type Decode = Vectors.NextTokenPrediction
+        type Decode = Vectors.PredictToken
 
     module DataLoader =
 
         module Create =
 
-            type InputTargetPair = Tokens -> InputTokens * TargetTokens
+            type InputTargetPair = Vocabulary -> InputTokens -> Stride -> InputTokens * TargetTokens
     
     module Get =
 
@@ -33,7 +34,7 @@ module Operations =
 
         module Tokens =
 
-            type PredictionMap = Create.InputTargetPair
+            type InputTargetPair = Create.InputTargetPair
 
         module Vector =
 

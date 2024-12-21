@@ -18,3 +18,4 @@ module Language =
     type Embedding    = Vectors
 
     type Prediction = TokenedText
+    type Stride = int
