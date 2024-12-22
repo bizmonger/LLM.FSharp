@@ -1,48 +1,85 @@
 ﻿namespace LLM.DataPreparation
 
-open Microsoft.ML;
-open LLM.DataPreparation
-open LLM.DataPreparation.Language
+open System.Collections.Generic
 
 module DataSource =
 
-    [<CLIMutable>]
-    type private InputData = { Text: Text }
+    /// Function to merge the most frequent pair in the corpus
+    let private mergePair (pair: string) (corpus: Dictionary<string, int>) : Dictionary<string, int> =
 
-    [<CLIMutable>]
-    type private TokenizedData = { Tokens: TokenedText[] }
+        let newCorpus = Dictionary<string, int>()
 
-    let toVocabulary : Operations.Text.ToVocabulary =
+        for KeyValue(k, v) in corpus do
 
-        fun content ->
+            // Replace the pair in the current token
+            let newK = k.Replace(pair, string(pair.[0]) + string(pair.[1]))
+            if newCorpus.ContainsKey(newK) then
+                newCorpus.[newK] <- newCorpus.[newK] + v
+            else
+                newCorpus.[newK] <- v
+        newCorpus
 
-            let mlContext = MLContext()
+    let private getNumberOfIterations (text:string) =
+        match text with
+        | text when text.Length < 50            -> 1
+        | text when text.Length < 100           -> 5
+        | text when text.Length < 1_000         -> 10
+        | text when text.Length < 10_000        -> 20
+        | text when text.Length < 100_000       -> 30
+        | text when text.Length < 1_000_000     -> 50
+        | text when text.Length < 1_000_000_000 -> 100
+        | _ -> 200
 
-            let inputData = 
-                [ {Text = content} ]
-                |> mlContext.Data.LoadFromEnumerable
+    /// Function to tokenize input text using byte-pair encoding
+    let createVocabulary : Operations.Text.ToVocabulary =
+        fun text ->
 
-            // Define text processing pipeline
-            let textPipeline = 
-                mlContext.Transforms.Text.TokenizeIntoWords("Tokens", "Text")
+            let numIterations = getNumberOfIterations text
 
-            // Fit and transform data
-            let transformer     = textPipeline.Fit(inputData)
-            let transformedData = transformer.Transform(inputData)
+            // Step 1: Initial tokenization by treating each character as a separate token
+            let tokens = 
+                text 
+                |> Seq.toList 
+                |> List.map (fun c -> string c)
+    
+            let mutable corpus = Dictionary<string, int>()
+    
+            // Create initial frequencies
+            for i in 0 .. tokens.Length - 2 do
+                let pair = tokens.[i] + tokens.[i + 1]
+                if corpus.ContainsKey(pair) then
+                    corpus.[pair] <- corpus.[pair] + 1
+                else
+                    corpus.[pair] <- 1
+    
+            // Step 2: Perform Byte Pair Encoding for the specified number of iterations
+            for _ in 1 .. numIterations do
+                // Step 2a: Find the most frequent pair
+                let maxPair = 
+                    corpus 
+                    |> Seq.maxBy (fun kvp -> kvp.Value)
+                    |> fun kvp -> kvp.Key
 
-            // Extract tokens from transformed data
-            let tokenizedData = 
-                mlContext.Data.CreateEnumerable<TokenizedData>(transformedData, reuseRowObject = false)
-                |> Seq.toList
+                // Step 2b: Merge the most frequent pair
+                corpus <- mergePair maxPair corpus
+        
+                // Step 2c: Update the corpus after merging the pair
+                let newCorpus = Dictionary<string, int>()
+                for KeyValue(k, v) in corpus do
+                    if newCorpus.ContainsKey(k) then
+                        newCorpus.[k] <- newCorpus.[k] + v
+                    else
+                        newCorpus.[k] <- v
+                corpus <- newCorpus
 
-            // Create dictionary of token IDs
-            let vocabulary = Vocabulary()
+            // Step 3: Create a final vocabulary with unique token IDs
+            let vocabulary = Dictionary<string, int>()
             let mutable tokenId = 0
 
-            for row in tokenizedData do
-                for token in row.Tokens do
-                    if not (vocabulary.ContainsValue(token)) then
-                        vocabulary.[tokenId] <- token
-                        tokenId <- tokenId + 1
+            // Assign unique token IDs to each token in the corpus
+            for KeyValue(token, _) in corpus do
+                vocabulary.[token] <- tokenId
+                tokenId <- tokenId + 1
 
+            // Return the vocabulary with token IDs
             vocabulary

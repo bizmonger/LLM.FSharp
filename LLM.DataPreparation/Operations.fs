@@ -10,7 +10,7 @@ module Operations =
         type ToTokenMap      = Text -> (TokenedText * Tokens)
         type ToTokens        = Text -> Tokens
         type ToVocabulary    = Text -> Vocabulary
-        type ToEmbedding     = Text -> TokenVectors
+        type ToEmbedding     = Text -> Vocabulary -> TokenVectors
 
     module TokenedText = type ToTokens = TokenedText -> Tokens
 

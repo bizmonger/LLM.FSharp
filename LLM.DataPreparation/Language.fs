@@ -10,7 +10,8 @@ module Language =
 
     type Token   = int
     type Tokens  = Token seq
-    type Vocabulary   = Dictionary<Token,TokenedText>
+
+    type Vocabulary   = Dictionary<TokenedText,Token>
     type TokenVector  = int array
     type InputTokens  = TokenVector
     type TargetTokens = TokenVector

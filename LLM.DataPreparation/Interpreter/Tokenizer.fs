@@ -6,7 +6,11 @@ module Tokenizer =
 
     let encode : Text.ToEmbedding =
 
-        fun _ -> [||]
+        fun textInput vocabulary ->
+
+            textInput
+        
+            [||]
 
     let decode : Vectors.PredictToken =
 
