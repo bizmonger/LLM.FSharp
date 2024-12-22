@@ -1,88 +1,90 @@
 ﻿namespace LLM.DataPreparation
 
 open System.Collections.Generic
+open Language
 
 module DataSource =
 
-    /// Function to merge the most frequent pair in the corpus
-    let private mergePair (pair: string) (corpus: Dictionary<string, int>) : Dictionary<string, int> =
-
-        let newCorpus = Dictionary<string, int>()
-
-        for KeyValue(k, v) in corpus do
-
-            // Replace the pair in the current token
-            let newK = k.Replace(pair, string(pair.[0]) + string(pair.[1]))
-            if newCorpus.ContainsKey(newK) then
-                newCorpus.[newK] <- newCorpus.[newK] + v
-            else
-                newCorpus.[newK] <- v
-        newCorpus
-
-    let private getNumberOfIterations (text:string) =
-        match text with
-        | text when text.Length < 50            -> 1
-        | text when text.Length < 100           -> 5
-        | text when text.Length < 1_000         -> 10
-        | text when text.Length < 10_000        -> 20
-        | text when text.Length < 100_000       -> 30
-        | text when text.Length < 1_000_000     -> 50
-        | text when text.Length < 1_000_000_000 -> 100
+    let private getNumberOfIterations (text: string) =
+        match text.Length with
+        | len when len < 50 -> 10
+        | len when len < 100 -> 20
+        | len when len < 1_000 -> 30
+        | len when len < 10_000 -> 40
+        | len when len < 100_000 -> 50
+        | len when len < 1_000_000 -> 60
+        | len when len < 1_000_000_000 -> 70
         | _ -> 200
 
-    /// Function to tokenize input text using byte-pair encoding
     let createVocabulary : Operations.Text.ToVocabulary =
 
         fun text ->
 
+            // Step 1: Tokenize the text into single characters initially
+            let mutable tokens: string list = 
+                text
+                |> Seq.toList
+                |> List.map string
+
+            let mutable corpus = Dictionary<string, int>()
+
+            // Helper to update corpus frequencies for token pairs
+            let updateCorpus tokens =
+                corpus.Clear()
+                tokens
+                |> List.windowed 2 // Create overlapping pairs of two tokens
+                |> List.iter (fun pair ->
+                    let key = pair.[0] + pair.[1]
+                    if corpus.ContainsKey(key) then
+                        corpus.[key] <- corpus.[key] + 1
+                    else
+                        corpus.[key] <- 1)
+
+            // Initialize the corpus
+            updateCorpus tokens
+
             let numIterations = getNumberOfIterations text
 
-            // Step 1: Initial tokenization by treating each character as a separate token
-            let tokens = 
-                text 
-                |> Seq.toList 
-                |> List.map (fun c -> string c)
-    
-            let mutable corpus = Dictionary<string, int>()
-    
-            // Create initial frequencies
-            for i in 0 .. tokens.Length - 2 do
-                let pair = tokens.[i] + tokens.[i + 1]
-                if corpus.ContainsKey(pair) then
-                    corpus.[pair] <- corpus.[pair] + 1
-                else
-                    corpus.[pair] <- 1
-    
             // Step 2: Perform Byte Pair Encoding for the specified number of iterations
+            let mutable continueProcessing = true
             for _ in 1 .. numIterations do
-                // Step 2a: Find the most frequent pair
-                let maxPair = 
-                    corpus 
-                    |> Seq.maxBy (fun kvp -> kvp.Value)
-                    |> fun kvp -> kvp.Key
-
-                // Step 2b: Merge the most frequent pair
-                corpus <- mergePair maxPair corpus
-        
-                // Step 2c: Update the corpus after merging the pair
-                let newCorpus = Dictionary<string, int>()
-                for KeyValue(k, v) in corpus do
-                    if newCorpus.ContainsKey(k) then
-                        newCorpus.[k] <- newCorpus.[k] + v
+                if not continueProcessing then
+                    () // Exit loop early if no pairs to merge
+                else
+                    if corpus.Count = 0 then
+                        continueProcessing <- false // Stop processing if no pairs exist
                     else
-                        newCorpus.[k] <- v
-                corpus <- newCorpus
+                        // Find the most frequent pair
+                        let mostFrequentPair =
+                            corpus
+                            |> Seq.maxBy (fun kvp -> kvp.Value)
+                            |> fun kvp -> kvp.Key
+
+                        // Merge the most frequent pair in the token list
+                        let newTokens = ResizeArray<string>()
+                        let mutable i = 0
+                        while i < tokens.Length do
+                            if i < tokens.Length - 1 && (tokens.[i] + tokens.[i + 1]) = mostFrequentPair then
+                                newTokens.Add(mostFrequentPair) // Merge the pair
+                                i <- i + 2 // Skip the merged pair
+                            else
+                                newTokens.Add(tokens.[i])
+                                i <- i + 1
+                        tokens <- List.ofSeq newTokens
+
+                        // Update the corpus after merging
+                        updateCorpus tokens
 
             // Step 3: Create a final vocabulary with unique token IDs
             let vocabulary = Dictionary<string, int>()
             let mutable tokenId = 0
 
-            // Assign unique token IDs to each token in the corpus
-            for KeyValue(token, _) in corpus do
-                vocabulary.[token] <- tokenId
-                tokenId <- tokenId + 1
+            tokens
+            |> List.distinct // Ensure each token is unique in the vocabulary
+            |> List.iter (fun token ->
+                if not (vocabulary.ContainsKey(token)) then
+                    vocabulary.[token] <- tokenId
+                    tokenId <- tokenId + 1)
 
-            let sorted = vocabulary
-                        |> Seq.sortBy (fun kvp -> kvp.Key)
-                        |> Dictionary
-            sorted
+            vocabulary
+

@@ -51,7 +51,6 @@ module Tokenizer =
         // Step 4: Return the token values as an array
         tokenValues
 
-
     let encode : Text.ToEmbedding =
 
         fun textInput vocabulary ->
