@@ -25,12 +25,12 @@ module WeightMatrix =
 
         let tokenEmbedding : Token.ToTokenEmbedding =
 
-            fun _ _ _ -> [||]
+            fun token vocabulary dimensionsCount -> [||]
             
         let positionalEmbedding : Token.ToPositionalEmbedding =
 
-            fun _ _ _ -> [||]
+            fun token input -> [||]
 
         let inputEmbedding : Token.ToInputEmbedding =
 
-            fun _ _ _ -> [||]
+            fun token tokenEmbedding positionalEmbedding -> [||]

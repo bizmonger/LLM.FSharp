@@ -16,21 +16,21 @@ module Operations =
 
     module Token = 
     
-        type toText                = Token -> Text
-        type ToTokenEmbedding      = Token -> Vocabulary -> DimensionCount -> TokenEmbedding
-        type ToPositionalEmbedding = Token -> Vocabulary -> DimensionCount -> PositionalEmbedding
-        type ToInputEmbedding      = Token -> Vocabulary -> DimensionCount -> InputEmbedding
+        type toText                = Token  -> Text
+        type ToTokenEmbedding      = Token  -> Vocabulary -> DimensionCount -> TokenEmbedding
+        type ToPositionalEmbedding = Token -> InputTokens -> PositionalEmbedding
+        type ToInputEmbedding      = Token  -> TokenEmbedding -> PositionalEmbedding -> InputEmbedding
 
     module Vectors =
 
-        type PredictToken     = TokenVectors -> Prediction
+        type PredictToken     = TokenVectors   -> Prediction
         type ToInputEmbedding = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
 
     module Tokens =
     
-        type ToTokenEmbeddings      = Tokens -> Vocabulary -> DimensionCount -> TokenEmbeddings
-        type ToPositionalEmbeddings = Tokens -> Vocabulary -> DimensionCount -> PositionalEmbeddings
-        type ToInputEmbeddings      = Tokens -> Vocabulary -> DimensionCount -> InputEmbeddings
+        type ToTokenEmbeddings      = Tokens -> Vocabulary      -> DimensionCount -> TokenEmbeddings
+        type ToPositionalEmbeddings = Tokens -> InputTokens     -> PositionalEmbeddings
+        type ToInputEmbeddings      = Tokens -> TokenEmbeddings -> PositionalEmbeddings -> InputEmbeddings
 
     module Tokenizer =
 
