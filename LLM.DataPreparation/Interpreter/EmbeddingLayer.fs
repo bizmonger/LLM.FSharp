@@ -38,8 +38,8 @@ module WeightMatrix =
                     let index = Array.IndexOf(input, token)
                     let mutable vector = Array.create dimensionCount 0.0
 
-                    for i = 0 to dimensionCount do
-                        vector.[i] <- float(index) + 0.1
+                    for i = 1 to dimensionCount do
+                        vector.[i] <- float(index) + 0.1 + float(i)
 
                     vector
 
