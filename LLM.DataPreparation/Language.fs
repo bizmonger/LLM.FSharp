@@ -25,4 +25,4 @@ module Language =
     type Stride = int
     type DimensionCount = int
     type MaxRowSize = int
-    type BatchSize = int
+    type BatchSize  = int
