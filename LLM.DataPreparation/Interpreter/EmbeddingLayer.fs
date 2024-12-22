@@ -33,4 +33,4 @@ module WeightMatrix =
 
         let inputEmbedding : Token.ToInputEmbedding =
 
-            fun token tokenEmbedding positionalEmbedding -> [||]
+            fun tokenEmbedding positionalEmbedding -> [||]
