@@ -18,13 +18,12 @@ module Operations =
     
         type toText                = Token -> Text
         type ToTokenEmbedding      = Token -> Vocabulary -> DimensionCount -> TokenEmbedding
-        type ToPositionalEmbedding = InputTokens    -> PositionalEmbedding
         type ToInputEmbedding      = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
 
     module Tokens =
     
         type ToTokenEmbeddings      = Tokens -> Vocabulary  -> DimensionCount -> TokenEmbeddings
-        type ToPositionalEmbeddings = InputTokens     -> PositionalEmbeddings
+        type ToPositionalEmbeddings = InputTokens -> DimensionCount -> PositionalEmbeddings
         type ToInputEmbeddings      = TokenEmbeddings -> PositionalEmbeddings -> InputEmbeddings
 
     module Vectors =

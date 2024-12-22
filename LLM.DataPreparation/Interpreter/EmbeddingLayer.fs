@@ -27,9 +27,27 @@ module WeightMatrix =
 
             fun token vocabulary dimensionsCount -> [||]
             
-        let positionalEmbedding : Token.ToPositionalEmbedding =
+    module Tokens =
 
-            fun input -> [||]
+        let positionalEmbedding : Tokens.ToPositionalEmbeddings =
+
+            fun input dimensionCount ->
+
+                let addPositions token =
+
+                    let index = Array.IndexOf(input, token)
+                    let mutable vector = Array.create dimensionCount 0.0
+
+                    for i = 0 to dimensionCount do
+                        vector.[i] <- float(index) + 0.1
+
+                    vector
+
+                let result = input |> Array.map addPositions
+            
+                result // 1.1, 1.2, 1.3
+                       // 2.1, 2.2, 3.3
+                       // 3.1, 3.2, 3.3
 
         let inputEmbedding : Token.ToInputEmbedding =
 
