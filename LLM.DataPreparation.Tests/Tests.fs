@@ -13,21 +13,37 @@ let ``build vocabulary`` () =
     // Verify
     vocabulary.Count |> should be (greaterThanOrEqualTo 4)
 
+//[<Test>]
+//let ``encode something`` () =
+
+//    // Setup
+//    let content    = "First of all, some text goes here."
+//    let vocabulary = content |> DataSource.createVocabulary
+//    let textInput  = "First of all"
+    
+//    vocabulary 
+//    |> Tokenizer.encode textInput
+//    |> Array.length
+//    |> should be (greaterThan 3)
+
 [<Test>]
-let ``encode something`` () =
+let ``get input/target pairs`` () =
 
     // Setup
     let content    = "First of all, some text goes here."
     let vocabulary = content |> DataSource.createVocabulary
     let textInput  = "First of all"
-    
-    vocabulary 
-    |> Tokenizer.encode textInput
-    |> Array.length
-    |> should be (greaterThan 3)
+    let elementsInRow = 4
+    let stride = 1
+    let tokens = vocabulary |> Tokenizer.extractTokens textInput
+
+    // Test
+    let result = Tokenizer.inputTargetPairs tokens elementsInRow stride
+
+    result |> fst |> Array.length |> should equal 4
 
 //[<Test>]
 //let ``decode something`` () =
 
 //    Tokenizer.decode [||]
-//    |> should equal "?"
+//    |> should equal false

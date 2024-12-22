@@ -40,7 +40,7 @@ module Operations =
 
         module Get =
 
-            type InputTargetPair = Vocabulary -> InputTokens -> Stride -> InputTokens * TargetTokens
+            type InputTargetPair = InputTokens -> ElementsPerRow -> Stride -> InputTokens[] * TargetTokens[]
             type TokenTensor     = Vocabulary -> Text -> BatchSize -> MaxRowSize -> TokenVectors
     
     module Get =

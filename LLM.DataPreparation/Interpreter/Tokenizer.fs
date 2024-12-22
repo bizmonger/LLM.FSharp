@@ -2,27 +2,55 @@
 
 open System
 open System.Collections.Generic
+open System.Text.RegularExpressions
+open LLM.DataPreparation.Language
 open LLM.DataPreparation.Operations
 
 module Tokenizer =
 
-    let private getInputTargetPairs : DataLoader.Get.InputTargetPair =
+    let inputTargetPairs : DataLoader.Get.InputTargetPair =
         
-        fun vocabulary tokens stride -> (Array.empty,Array.empty)
+        fun tokens elementsPerRow stride ->
 
-    let private extractTokens (text: string) (vocabulary: Dictionary<string, int>) : int[] =
+            let inputResult  = tokens |> Array.chunkBySize elementsPerRow
+            let TargetResult = tokens |> Array.tail |> Array.chunkBySize elementsPerRow
 
-        let tokens = text.Split([| ' '; '\t'; '\n'; ','; '.'; ';'; ':' |], StringSplitOptions.RemoveEmptyEntries)
+            (inputResult,TargetResult)
 
+    // Function to extract token values from the dictionary given an input string
+    let extractTokens (inputString: Text) (vocabulary: Vocabulary) : int[] =
+        
+        // Step 1: Tokenize the input string using a regular expression that handles partial words and prefixes.
+        // Using a regex pattern that is more aligned with subword tokens (if BPE is used).
+        let tokens = 
+            Regex.Split(inputString, @"(\W+|\s+)") // Modify as needed for BPE token format
+            |> Array.filter (fun s -> s.Trim() <> "") // Remove empty tokens
+
+        // Step 2: Match tokens from the vocabulary
+        let getTokenValue (token: string) : int option =
+            // Try to match the exact token from the dictionary
+            if vocabulary.ContainsKey(token) then
+                Some(vocabulary.[token])
+            else
+                // If the exact token doesn't match, check for prefix matches in the dictionary
+                let matches = 
+                    vocabulary
+                    |> Seq.filter (fun kvp -> token.StartsWith(kvp.Key))
+                    |> Seq.sortBy (fun kvp -> -kvp.Key.Length) // Sort by the length of the prefix to match the longest first
+                    |> Seq.tryHead
+
+                match matches with
+                | Some(kvp) -> Some(kvp.Value) // If a match is found, return the corresponding token ID
+                | None -> None // No match found, return None
+
+        // Step 3: Extract token values
         let tokenValues =
             tokens
-            |> Array.choose (fun token ->
+            |> Array.choose (fun token -> getTokenValue token) // Extract token values only for tokens that exist in the dictionary
 
-                if vocabulary.ContainsKey(token) 
-                then Some(vocabulary.[token])
-                else None) 
-
+        // Step 4: Return the token values as an array
         tokenValues
+
 
     let encode : Text.ToEmbedding =
 
@@ -31,8 +59,8 @@ module Tokenizer =
             // Step 1: Create input/target pairs (required for training an LLM)
             //-----------------------------------------------------------------
             let tokens = extractTokens textInput vocabulary
-            let stride = 1
-            let inputTargetPairs = getInputTargetPairs vocabulary tokens stride
+            let elementsPerRow, stride = 4, 1
+            let inputTargetPairs = inputTargetPairs tokens elementsPerRow stride
             //-----------------------------------------------------------------
 
             let embeddingsDictionary = Dictionary<int, float[]>()
@@ -53,4 +81,4 @@ module Tokenizer =
 
     let decode : Vectors.PredictToken =
 
-        fun _ -> "TODO"
+            fun _ -> "TODO"

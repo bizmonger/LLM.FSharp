@@ -1,6 +1,5 @@
 ﻿namespace LLM.DataPreparation
 
-open System.Linq
 open System.Collections.Generic
 
 module DataSource =
