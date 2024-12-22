@@ -8,10 +8,10 @@ open NUnit.Framework
 let ``build vocabulary`` () =
 
     // Test
-    let vocabulary = DataSource.createVocabulary "Here's some content"
+    let vocabulary = DataSource.createVocabulary "Here's some content."
 
     // Verify
-    vocabulary.Count |> should be (greaterThan 1)
+    vocabulary.Count |> should be (greaterThanOrEqualTo 4)
 
 [<Test>]
 let ``encode something`` () =
@@ -20,7 +20,7 @@ let ``encode something`` () =
     let content    = "First of all, some text goes here."
     let vocabulary = content |> DataSource.createVocabulary
     let textInput  = "First of all"
-    let vectors   = [||]
+    let vectors    = [||]
     
     vocabulary 
     |> Tokenizer.encode textInput

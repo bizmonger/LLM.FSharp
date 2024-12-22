@@ -1,5 +1,6 @@
 ﻿namespace LLM.DataPreparation
 
+open System.Linq
 open System.Collections.Generic
 
 module DataSource =
@@ -32,6 +33,7 @@ module DataSource =
 
     /// Function to tokenize input text using byte-pair encoding
     let createVocabulary : Operations.Text.ToVocabulary =
+
         fun text ->
 
             let numIterations = getNumberOfIterations text
@@ -81,5 +83,7 @@ module DataSource =
                 vocabulary.[token] <- tokenId
                 tokenId <- tokenId + 1
 
-            // Return the vocabulary with token IDs
-            vocabulary
+            let sorted = vocabulary
+                        |> Seq.sortBy (fun kvp -> kvp.Key)
+                        |> Dictionary
+            sorted
