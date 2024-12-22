@@ -1,4 +1,4 @@
-﻿module LLM.Transformer.Tests
+﻿module LLM.DataPreparation.Tests
 
 open FsUnit
 

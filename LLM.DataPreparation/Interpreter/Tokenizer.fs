@@ -1,4 +1,4 @@
-﻿namespace LLM.Transformer
+﻿namespace LLM.DataPreparation
 
 open LLM.DataPreparation.Operations
 

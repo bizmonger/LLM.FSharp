@@ -10,21 +10,27 @@ module Operations =
         type ToTokenMap      = Text -> (TokenedText * Tokens)
         type ToTokens        = Text -> Tokens
         type ToVocabulary    = Text -> Vocabulary
-        type ToEmbedding     = Text -> Vectors
+        type ToEmbedding     = Text -> TokenVectors
 
     module TokenedText = type ToTokens = TokenedText -> Tokens
-    module Token       = type toText   = Token       -> Text
+
+    module Token = 
+    
+        type toText                = Token -> Text
+        type ToTokenEmbedding      = Token -> Vocabulary -> DimensionCount -> TokenEmbedding
+        type ToPositionalEmbedding = Token -> Vocabulary -> DimensionCount -> PositionalEmbedding
+        type ToInputEmbedding      = Token -> Vocabulary -> DimensionCount -> InputEmbedding
 
     module Vectors =
 
-        type PredictToken     = Vectors -> Prediction
+        type PredictToken     = TokenVectors -> Prediction
         type ToInputEmbedding = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
 
-    module Tokens = 
+    module Tokens =
     
-        type ToTokenEmbedding      = Tokens -> Vocabulary -> DimensionCount -> TokenEmbedding
-        type ToPositionalEmbedding = Tokens -> Vocabulary -> DimensionCount -> PositionalEmbedding
-        type ToInputEmbedding      = Tokens -> Vocabulary -> DimensionCount -> InputEmbedding
+        type ToTokenEmbeddings      = Tokens -> Vocabulary -> DimensionCount -> TokenEmbeddings
+        type ToPositionalEmbeddings = Tokens -> Vocabulary -> DimensionCount -> PositionalEmbeddings
+        type ToInputEmbeddings      = Tokens -> Vocabulary -> DimensionCount -> InputEmbeddings
 
     module Tokenizer =
 
@@ -36,7 +42,7 @@ module Operations =
         module Get =
 
             type InputTargetPair = Vocabulary -> InputTokens -> Stride -> InputTokens * TargetTokens
-            type TokenTensor     = Vocabulary -> Text -> BatchSize -> MaxRowSize -> Vectors
+            type TokenTensor     = Vocabulary -> Text -> BatchSize -> MaxRowSize -> TokenVectors
     
     module Get =
 
@@ -48,7 +54,7 @@ module Operations =
 
         module Vector =
 
-            type Size = Vector -> int
+            type Size = TokenVector -> int
 
         module Vocabulary =
 

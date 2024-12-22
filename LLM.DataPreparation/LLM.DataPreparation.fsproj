@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Language.fs" />
     <Compile Include="Operations.fs" />
+    <Compile Include="Interpreter\EmbeddingLayer.fs" />
     <Compile Include="Interpreter\DataSource.fs" />
     <Compile Include="Interpreter\Tokenizer.fs" />
   </ItemGroup>
