@@ -32,7 +32,6 @@ let ``get input/target pairs`` () =
     // Setup
     let content    = "First of all, some text goes here."
     let vocabulary = content |> DataSource.createVocabulary
-    let textInput  = "First of all"
     let elementsInRow = 4
     let stride = 1
     let contentTokens = vocabulary |> Tokenizer.extractTokens content
