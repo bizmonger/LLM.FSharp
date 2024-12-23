@@ -10,14 +10,13 @@ module Tokenizer =
 
     let inputTargetPairs : DataLoader.Get.InputTargetPair =
         
-        fun tokens elementsPerRow stride ->
+        fun contentTokens elementsPerRow stride ->
 
-            let inputResult  = tokens |> Array.chunkBySize elementsPerRow
-            let TargetResult = tokens |> Array.tail |> Array.chunkBySize elementsPerRow
+            let inputResult  = contentTokens |> Array.chunkBySize elementsPerRow
+            let TargetResult = contentTokens |> Array.skip stride |> Array.chunkBySize elementsPerRow
 
             (inputResult,TargetResult)
 
-    // Function to extract token values from the dictionary given an input string
     let extractTokens (inputString: Text) (vocabulary: Vocabulary) : int[] =
         
         // Step 1: Tokenize the input string using a regular expression that handles partial words and prefixes.
@@ -28,6 +27,7 @@ module Tokenizer =
 
         // Step 2: Match tokens from the vocabulary
         let getTokenValue (token: string) : int option =
+
             // Try to match the exact token from the dictionary
             if vocabulary.ContainsKey(token) then
                 Some(vocabulary.[token])
@@ -53,13 +53,12 @@ module Tokenizer =
 
     let encode : Text.ToEmbedding =
 
-        fun textInput vocabulary ->
+        fun textInput contentTokens vocabulary ->
 
             // Step 1: Create input/target pairs (required for training an LLM)
             //-----------------------------------------------------------------
-            let tokens = extractTokens textInput vocabulary
             let elementsPerRow, stride = 4, 1
-            let inputTargetPairs = inputTargetPairs tokens elementsPerRow stride
+            let inputTargetPairs = inputTargetPairs contentTokens elementsPerRow stride
             //-----------------------------------------------------------------
 
             let embeddingsDictionary = Dictionary<int, float[]>()

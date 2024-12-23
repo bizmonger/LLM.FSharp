@@ -11,11 +11,12 @@ module Language =
     type Token   = int
     type Tokens  = Token seq
 
-    type Vocabulary   = Dictionary<TokenedText,Token>
-    type TokenVector  = int array
-    type InputTokens  = TokenVector
-    type TargetTokens = TokenVector
-    type TokenVectors = TokenVector array
+    type Vocabulary    = Dictionary<TokenedText,Token>
+    type TokenVector   = int array
+    type InputTokens   = TokenVector
+    type ContentTokens = TokenVector
+    type TargetTokens  = TokenVector
+    type TokenVectors  = TokenVector array
 
     type VectorEmbedding = float array
     type WeightMatrix    = VectorEmbedding array

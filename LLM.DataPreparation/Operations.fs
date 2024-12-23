@@ -10,7 +10,7 @@ module Operations =
         type ToTokenMap      = Text -> (TokenedText * Tokens)
         type ToTokens        = Text -> Tokens
         type ToVocabulary    = Text -> Vocabulary
-        type ToEmbedding     = Text -> Vocabulary -> TokenVectors
+        type ToEmbedding     = Text -> ContentTokens -> Vocabulary -> TokenVectors
 
     module TokenedText = type ToTokens = TokenedText -> Tokens
 
@@ -40,7 +40,7 @@ module Operations =
 
         module Get =
 
-            type InputTargetPair = InputTokens -> ElementsPerRow -> Stride -> InputTokens[] * TargetTokens[]
+            type InputTargetPair = ContentTokens -> ElementsPerRow -> Stride -> InputTokens[] * TargetTokens[]
             type TokenTensor     = Vocabulary -> Text -> BatchSize -> MaxRowSize -> TokenVectors
     
     module Get =

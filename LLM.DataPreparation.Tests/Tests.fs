@@ -35,12 +35,13 @@ let ``get input/target pairs`` () =
     let textInput  = "First of all"
     let elementsInRow = 4
     let stride = 1
-    let tokens = vocabulary |> Tokenizer.extractTokens textInput
+    let contentTokens = vocabulary |> Tokenizer.extractTokens content
 
     // Test
-    let result = Tokenizer.inputTargetPairs tokens elementsInRow stride
+    let input, target = Tokenizer.inputTargetPairs contentTokens elementsInRow stride
 
-    result |> fst |> Array.length |> should equal 4
+    input .[0].[0] |> should equal 0
+    target.[0].[0] |> should equal 1
 
 //[<Test>]
 //let ``decode something`` () =
