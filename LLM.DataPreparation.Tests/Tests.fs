@@ -1,8 +1,9 @@
 ﻿module LLM.DataPreparation.Tests
 
 open FsUnit
-
 open NUnit.Framework
+open LLM.DataPreparation.Language
+open System.Collections.Generic
 
 [<Test>]
 let ``build vocabulary`` () =
@@ -37,10 +38,14 @@ let ``get input/target pairs`` () =
     let contentTokens = vocabulary |> Tokenizer.extractTokens content
 
     // Test
-    let input, target = Tokenizer.inputTargetPairs contentTokens elementsInRow stride
+    let input, target  = Tokenizer.inputTargetPairs contentTokens elementsInRow stride
+    let textDictionary = vocabulary |> Tokenizer.toTextDictionary
 
-    input .[0].[0] |> should equal 0
-    target.[0].[0] |> should equal 1
+    let inputText  = input .[0] |> Array.map(fun t -> textDictionary.[t])
+    let targetText = target.[0] |> Array.map(fun t -> textDictionary.[t])
+
+    inputText  |> should equal [|"First"; "of"; "all"; ","|]
+    targetText |> should equal [| "of"; "all"; ","; "some";|]
 
 //[<Test>]
 //let ``decode something`` () =

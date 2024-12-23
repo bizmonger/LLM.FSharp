@@ -16,9 +16,9 @@ module Operations =
 
     module Token = 
     
-        type toText                = Token -> Text
-        type ToTokenEmbedding      = Token -> Vocabulary -> DimensionCount -> TokenEmbedding
-        type ToInputEmbedding      = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
+        type toText           = Token -> Text
+        type ToTokenEmbedding = Token -> Vocabulary -> DimensionCount -> TokenEmbedding
+        type ToInputEmbedding = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
 
     module Tokens =
     
@@ -42,6 +42,7 @@ module Operations =
 
             type InputTargetPair = ContentTokens -> ElementsPerRow -> Stride -> InputTokens[] * TargetTokens[]
             type TokenTensor     = Vocabulary -> Text -> BatchSize -> MaxRowSize -> TokenVectors
+            type InputTargets    = ContentTokens -> ElementsPerRow -> Stride -> InputTokens * TargetTokens[]
     
     module Get =
 

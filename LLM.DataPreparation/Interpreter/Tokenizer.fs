@@ -8,6 +8,13 @@ open LLM.DataPreparation.Operations
 
 module Tokenizer =
 
+    let toTextDictionary (inputDict: Dictionary<'K, 'V>) : Dictionary<'V, 'K> =
+
+        let swappedDict = Dictionary<'V, 'K>()
+        for kvp in inputDict do
+            swappedDict.[kvp.Value] <- kvp.Key
+        swappedDict
+
     let inputTargetPairs : DataLoader.Get.InputTargetPair =
         
         fun contentTokens elementsPerRow stride ->
