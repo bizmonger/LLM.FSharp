@@ -1,10 +1,10 @@
 ﻿namespace LLM.DataPreparation.EmbeddingLayer
 
 open System
+open System.Collections.Generic
 open LLM.DataPreparation.Language
 open LLM.DataPreparation.Operations
 open LLM.DataPreparation.Operations.Get
-open System.Collections.Generic
 
 module WeightMatrix =
 
@@ -26,7 +26,7 @@ module WeightMatrix =
 
     module Embeddings =
 
-        let initialize (dimensions:int) (vocabulary:Vocabulary) : Dictionary<int, float[]> =
+        let initialize (dimensions:int) (vocabulary:Vocabulary) : Dictionary<Token, TokenEmbedding> =
 
             let range = 3
             let embeddingsDict = Dictionary<int, float[]>()

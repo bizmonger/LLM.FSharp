@@ -59,6 +59,23 @@ let ``initialize token embedding`` () =
 
     // Verify
     embeddingsDictionary.Count |> should be (greaterThanOrEqualTo 9)
+
+
+[<Test>]
+let ``Retrieve a token embedding`` () =
+
+    // Setup
+    let content    = "First of all, some text goes here."
+    let vocabulary = content |> DataSource.createVocabulary
+    let dimensions = 4
+    let embeddingsDictionary = vocabulary |> Embeddings.initialize dimensions 
+    let token = 0
+
+    // Test
+    let embedding = embeddingsDictionary.[token]
+
+    // Verify
+    embedding |> Array.isEmpty |> should equal false
     
 
 //[<Test>]
