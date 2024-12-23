@@ -26,14 +26,15 @@ module WeightMatrix =
 
     module Embeddings =
 
-        let initialize (vectorSize:int) (vocabulary:Vocabulary) : Dictionary<int, float[]> =
+        let initialize (dimensions:int) (vocabulary:Vocabulary) : Dictionary<int, float[]> =
 
+            let range = 3
             let embeddingsDictionary = Dictionary<int, float[]>()
 
             // For each entry in the vocabulary
             for KeyValue(key, value) in vocabulary do
 
-                let floatArray = Vector.initializeWeight vectorSize 3
+                let floatArray = Vector.initializeWeight dimensions range
                 embeddingsDictionary.[value] <- floatArray
 
             embeddingsDictionary

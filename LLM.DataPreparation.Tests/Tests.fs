@@ -52,10 +52,10 @@ let ``initialize token embedding`` () =
     // Setup
     let content    = "First of all, some text goes here."
     let vocabulary = content |> DataSource.createVocabulary
-    let vectorSize = 4
+    let dimensions = 4
 
     // Test
-    let embeddingsDictionary = vocabulary |> Embeddings.initialize vectorSize 
+    let embeddingsDictionary = vocabulary |> Embeddings.initialize dimensions 
 
     // Verify
     embeddingsDictionary.Count |> should be (greaterThanOrEqualTo 9)
