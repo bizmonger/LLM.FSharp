@@ -76,6 +76,22 @@ let ``Retrieve a token embedding`` () =
 
     // Verify
     embedding |> Array.isEmpty |> should equal false
+
+[<Test>]
+let ``Add positional encoding to token`` () =
+
+    // Setup
+    let content    = "First of all, some text goes here."
+    let vocabulary = content |> DataSource.createVocabulary
+    let dimensions = 4
+    let embeddingsDictionary = vocabulary |> Embeddings.initialize dimensions 
+    let token = 3
+
+    // Test
+    ()
+
+    // Verify
+    Assert.Fail()
     
 
 //[<Test>]
