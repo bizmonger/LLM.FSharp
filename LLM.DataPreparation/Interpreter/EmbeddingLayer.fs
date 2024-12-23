@@ -29,15 +29,21 @@ module WeightMatrix =
         let initialize (dimensions:int) (vocabulary:Vocabulary) : Dictionary<int, float[]> =
 
             let range = 3
-            let embeddingsDictionary = Dictionary<int, float[]>()
+            let embeddingsDict = Dictionary<int, float[]>()
 
             // For each entry in the vocabulary
             for KeyValue(key, value) in vocabulary do
 
                 let floatArray = Vector.initializeWeight dimensions range
-                embeddingsDictionary.[value] <- floatArray
+                embeddingsDict.[value] <- floatArray
 
-            embeddingsDictionary
+            // Create a sorted dictionary by keys (tokens)
+            let sortedDict =
+                embeddingsDict
+                |> Seq.sortBy (fun kvp -> kvp.Key)
+                |> Dictionary
+
+            sortedDict
 
     module Token =
 
