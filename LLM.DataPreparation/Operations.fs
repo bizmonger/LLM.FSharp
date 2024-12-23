@@ -42,7 +42,6 @@ module Operations =
 
             type InputTargetPair = ContentTokens -> ElementsPerRow -> Stride -> InputTokens[] * TargetTokens[]
             type TokenTensor     = Vocabulary -> Text -> BatchSize -> MaxRowSize -> TokenVectors
-            type InputTargets    = ContentTokens -> ElementsPerRow -> Stride -> InputTokens * TargetTokens[]
     
     module Get =
 

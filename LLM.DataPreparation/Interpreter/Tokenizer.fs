@@ -68,6 +68,8 @@ module Tokenizer =
             let inputTargetPairs = inputTargetPairs contentTokens elementsPerRow stride
             //-----------------------------------------------------------------
 
+            // Step 2: Convert tokens to embeddings
+            //-----------------------------------------------------------------
             let embeddingsDictionary = Dictionary<int, float[]>()
 
             // For each entry in the vocabulary
@@ -82,6 +84,8 @@ module Tokenizer =
                 embeddingsDictionary.[value] <- floatArray
 
             //embeddingsDictionary.Values
+            //-----------------------------------------------------------------
+
             Array.empty
 
     let decode : Vectors.PredictToken =

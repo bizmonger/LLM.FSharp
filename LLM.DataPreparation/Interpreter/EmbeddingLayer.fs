@@ -1,7 +1,10 @@
 ﻿namespace LLM.DataPreparation.EmbeddingLayer
 
 open System
+open LLM.DataPreparation.Language
 open LLM.DataPreparation.Operations
+open LLM.DataPreparation.Operations.Get
+open System.Collections.Generic
 
 module WeightMatrix =
 
@@ -16,10 +19,24 @@ module WeightMatrix =
         /// Returns: An array of low random values within the range [-range, range].
         let initializeWeight (size: int) (range: float) : float[] =
 
-            if size <= 0    then raise (ArgumentException("Invalid size: Size must be a positive integer."))
+            if size  <= 0   then raise (ArgumentException("Invalid size: Size must be a positive integer."))
             if range <= 0.0 then raise (ArgumentException("Invalid range: Range must be a positive float."))
 
             Array.init size (fun _ -> (random.NextDouble() * 2.0 - 1.0) * range)
+
+    module Embeddings =
+
+        let initialize (vectorSize:int) (vocabulary:Vocabulary) : Dictionary<int, float[]> =
+
+            let embeddingsDictionary = Dictionary<int, float[]>()
+
+            // For each entry in the vocabulary
+            for KeyValue(key, value) in vocabulary do
+
+                let floatArray = Vector.initializeWeight vectorSize 3
+                embeddingsDictionary.[value] <- floatArray
+
+            embeddingsDictionary
 
     module Token =
 
