@@ -13,6 +13,7 @@ module Tokenizer =
         let swappedDict = Dictionary<'V, 'K>()
         for kvp in inputDict do
             swappedDict.[kvp.Value] <- kvp.Key
+
         swappedDict
 
     let inputTargetPairs : DataLoader.Get.InputTargetPair =

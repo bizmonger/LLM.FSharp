@@ -4,7 +4,6 @@ open System
 open System.Collections.Generic
 open LLM.DataPreparation.Language
 open LLM.DataPreparation.Operations
-open LLM.DataPreparation.Operations.Get
 
 module WeightMatrix =
 
@@ -31,13 +30,11 @@ module WeightMatrix =
             let range = 3
             let embeddingsDict = Dictionary<int, float[]>()
 
-            // For each entry in the vocabulary
             for KeyValue(key, value) in vocabulary do
 
                 let floatArray = Vector.initializeWeight dimensions range
                 embeddingsDict.[value] <- floatArray
 
-            // Create a sorted dictionary by keys (tokens)
             let sortedDict =
                 embeddingsDict
                 |> Seq.sortBy (fun kvp -> kvp.Key)
