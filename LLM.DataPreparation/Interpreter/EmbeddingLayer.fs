@@ -17,7 +17,7 @@ module WeightMatrix =
         /// - `size`: The size of the vector to generate. Must be a positive integer.
         /// - `range`: The maximum absolute value for the random weights. Must be a positive float.
         /// Returns: An array of low random values within the range [-range, range].
-        let initializeWeight (size: int) (range: float) : float[] =
+        let initializeWeight (size: int) (range: float) : VectorEmbedding =
 
             if size  <= 0   then raise (ArgumentException("Invalid size: Size must be a positive integer."))
             if range <= 0.0 then raise (ArgumentException("Invalid range: Range must be a positive float."))
@@ -26,7 +26,7 @@ module WeightMatrix =
 
     module Embeddings =
 
-        let initialize (dimensions:int) (vocabulary:Vocabulary) : Dictionary<Token, TokenEmbedding> =
+        let initialize (dimensions:int) (vocabulary:Vocabulary) : EmbeddingsDictionary =
 
             let range = 3
             let embeddingsDict = Dictionary<int, float[]>()
@@ -49,7 +49,7 @@ module WeightMatrix =
 
         let tokenEmbedding : Token.ToTokenEmbedding =
 
-            fun token vocabulary dimensionsCount -> [||]
+            fun token embeddingsDict -> embeddingsDict.[token]
             
     module Tokens =
 

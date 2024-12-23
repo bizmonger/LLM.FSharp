@@ -17,7 +17,7 @@ module Operations =
     module Token = 
     
         type toText           = Token -> Text
-        type ToTokenEmbedding = Token -> Vocabulary -> DimensionCount -> TokenEmbedding
+        type ToTokenEmbedding = Token -> EmbeddingsDictionary -> TokenEmbedding
         type ToInputEmbedding = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
 
     module Tokens =

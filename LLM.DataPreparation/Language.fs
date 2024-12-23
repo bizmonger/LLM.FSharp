@@ -21,14 +21,16 @@ module Language =
     type VectorEmbedding = float array
     type WeightMatrix    = VectorEmbedding array
 
-    type TokenEmbedding       = VectorEmbedding
-    type TokenEmbeddings      = VectorEmbedding []
+    type TokenEmbedding  = VectorEmbedding
+    type TokenEmbeddings = VectorEmbedding []
 
     type PositionalEmbedding  = VectorEmbedding
     type PositionalEmbeddings = VectorEmbedding []
 
-    type InputEmbedding       = VectorEmbedding
-    type InputEmbeddings      = VectorEmbedding []
+    type InputEmbedding  = VectorEmbedding
+    type InputEmbeddings = VectorEmbedding []
+
+    type EmbeddingsDictionary = Dictionary<Token, TokenEmbedding>
 
     type Prediction = TokenedText
     type Stride = int
