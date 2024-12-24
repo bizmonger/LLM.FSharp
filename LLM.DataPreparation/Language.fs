@@ -13,6 +13,7 @@ module Language =
 
     type Vocabulary    = Dictionary<TokenedText,Token>
     type TokenVector   = int array
+    type ContextVector = int array
     type InputTokens   = TokenVector
     type ContentTokens = TokenVector
     type TargetTokens  = TokenVector

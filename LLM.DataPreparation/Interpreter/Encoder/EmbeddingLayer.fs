@@ -52,14 +52,14 @@ module WeightMatrix =
 
         let positionalEmbedding : Tokens.ToPositionalEmbeddings =
 
-            fun input dimensionCount ->
+            fun input dimensions ->
 
                 let addPositions token =
 
                     let index = Array.IndexOf(input, token)
-                    let mutable vector = Array.create dimensionCount 0.0
+                    let mutable vector = Array.create dimensions 0.0
 
-                    for i = 1 to dimensionCount do
+                    for i = 1 to dimensions do
                         vector.[i] <- float(index) + 0.1 + float(i)
 
                     vector
