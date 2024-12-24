@@ -32,6 +32,19 @@ module Operations =
         type PredictToken     = TokenVectors   -> Prediction
         type ToInputEmbedding = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
 
+    module Attention =
+
+        module Weights =
+
+            type Normalize = InputEmbedding -> AttentionWeights
+            //type Query     = TODO
+            //type Key       = TODO
+            //type Value     = TODO
+
+        module ContextVector =
+
+            type Compute = InputEmbeddings -> InputAttentionWeights -> ContextVector
+
     module Tokenizer =
 
         type Encode = Text.ToEmbedding

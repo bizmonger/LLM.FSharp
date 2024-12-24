@@ -12,26 +12,33 @@ module Language =
     type Tokens  = Token seq
 
     type Vocabulary    = Dictionary<TokenedText,Token>
-    type TokenVector   = int array
-    type ContextVector = int array
+    type TokenVector   = int   array
+    type ContextVector = float array
     type InputTokens   = TokenVector
     type ContentTokens = TokenVector
     type TargetTokens  = TokenVector
     type TokenVectors  = TokenVector array
 
+    type QueryVector = float array
+    type KeyVector   = float array
+    type ValueVector = float array
+
     type VectorEmbedding = float array
     type WeightMatrix    = VectorEmbedding array
 
     type TokenEmbedding  = VectorEmbedding
-    type TokenEmbeddings = VectorEmbedding []
+    type TokenEmbeddings = VectorEmbedding array
 
     type PositionalEmbedding  = VectorEmbedding
-    type PositionalEmbeddings = VectorEmbedding []
+    type PositionalEmbeddings = VectorEmbedding array
 
     type InputEmbedding  = VectorEmbedding
-    type InputEmbeddings = VectorEmbedding []
+    type InputEmbeddings = VectorEmbedding array
 
     type EmbeddingsDictionary = Dictionary<Token, TokenEmbedding>
+
+    type AttentionWeights      = float array
+    type InputAttentionWeights = AttentionWeights array
 
     type Prediction = TokenedText
     type Stride = int
