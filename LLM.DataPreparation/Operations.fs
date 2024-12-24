@@ -34,16 +34,26 @@ module Operations =
 
     module Attention =
 
+        module Score =
+
+            type ComputeScore = InputEmbedding -> InputEmbedding -> AttentionScore
+
         module Weights =
 
-            type Normalize = InputEmbedding -> AttentionWeights
-            //type Query     = TODO
-            //type Key       = TODO
-            //type Value     = TODO
+            type Initialize = unit           -> AttentionWeight
+            type Normalize  = AttentionScore -> AttentionWeight
+            type Key        = InputEmbedding -> AttentionWeights
+            type Value      = InputEmbedding -> AttentionWeights
 
         module ContextVector =
 
             type Compute = InputEmbeddings -> InputAttentionWeights -> ContextVector
+
+    module SelfAttention =
+
+        module QueryVector = type Compute = InputEmbedding -> QueryWeightParameters
+        module KeyVector   = type Compute = InputEmbedding -> KeyWeightParameters
+        module ValueVector = type Compute = InputEmbedding -> ValueWeightParameters
 
     module Tokenizer =
 

@@ -4,14 +4,18 @@ open System.Collections.Generic
 
 module Language =
 
-    type Text  = string
+    // Tokens
+    //---------------------------------------------
+    type Text = string
     type BytePairEncoding = string
     type TokenedText = BytePairEncoding
 
-    type Token   = int
-    type Tokens  = Token seq
+    type Token  = int
+    type Tokens = Token seq
+    type Vocabulary = Dictionary<TokenedText,Token>
 
-    type Vocabulary    = Dictionary<TokenedText,Token>
+    // Vectors
+    //---------------------------------------------
     type TokenVector   = int   array
     type ContextVector = float array
     type InputTokens   = TokenVector
@@ -19,27 +23,41 @@ module Language =
     type TargetTokens  = TokenVector
     type TokenVectors  = TokenVector array
 
-    type QueryVector = float array
-    type KeyVector   = float array
-    type ValueVector = float array
-
+    // Embeddings
+    //---------------------------------------------
     type VectorEmbedding = float array
-    type WeightMatrix    = VectorEmbedding array
-
     type TokenEmbedding  = VectorEmbedding
     type TokenEmbeddings = VectorEmbedding array
+    type EmbeddingsDictionary = Dictionary<Token, TokenEmbedding>
 
+    // Input
+    //---------------------------------------------
     type PositionalEmbedding  = VectorEmbedding
     type PositionalEmbeddings = VectorEmbedding array
 
     type InputEmbedding  = VectorEmbedding
     type InputEmbeddings = VectorEmbedding array
 
-    type EmbeddingsDictionary = Dictionary<Token, TokenEmbedding>
+    type AttentionScore        = float array
+    type AttentionWeight       = float array
+    type AttentionWeights      = float array array
+    type InputAttentionWeights = AttentionWeights
 
-    type AttentionWeights      = float array
-    type InputAttentionWeights = AttentionWeights array
+    // Training
+    //---------------------------------------------
+    type Weight  = float array
+    type Weights = Weight array
 
+    type QueryVector = float array
+    type KeyVector   = float array
+    type ValueVector = float array
+
+    type QueryWeightParameters = Weights
+    type KeyWeightParameters   = Weights
+    type ValueWeightParameters = Weights
+
+    // Input Target Pairs
+    //---------------------------------------------
     type Prediction = TokenedText
     type Stride = int
     type ElementsPerRow = int
