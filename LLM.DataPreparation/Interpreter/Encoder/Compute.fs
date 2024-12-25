@@ -1,17 +1,11 @@
 ﻿namespace LLM.DataPreparation.EmbeddingLayer
 
-open LLM.DataPreparation.Operations.Attention
+open LLM.DataPreparation.Operations
 
 module Compute =
 
-    let score : Score.Compute =
+    let attentionScores : Attention.Scores.Compute =
 
-        fun embedding1 embedding2 ->
+        fun embeddingOfQuery inputEmbeddings ->
 
-            Array.empty
-
-    let scores : Score.Compute =
-
-        fun embedding1 embedding2 ->
-
-            Array.empty
+            [|[||]|]

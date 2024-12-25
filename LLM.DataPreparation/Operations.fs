@@ -23,9 +23,9 @@ module Operations =
 
     module Tokens =
     
-        type ToTokenEmbeddings      = Tokens -> EmbeddingsDictionary -> TokenEmbeddings
-        type ToPositionalEmbeddings = InputTokens -> DimensionCount -> PositionalEmbeddings
-        type ToInputEmbeddings      = TokenEmbeddings -> PositionalEmbeddings -> InputEmbeddings
+        type ToTokenEmbeddings      = EmbeddingsDictionary -> Tokens -> TokenEmbeddings
+        type ToPositionalEmbeddings = DimensionCount -> InputTokens -> PositionalEmbeddings
+        type ToInputEmbeddings      = PositionalEmbeddings -> TokenEmbeddings -> InputEmbeddings
 
     module Vectors =
 
@@ -40,7 +40,7 @@ module Operations =
 
         module Scores =
 
-            type Compute = InputEmbeddings -> InputEmbeddings -> AttentionScores
+            type Compute = InputEmbeddings -> InputEmbedding -> AttentionScores
 
         module Weights =
 
@@ -86,4 +86,4 @@ module Operations =
         module Vocabulary =
 
             type Size  = Vocabulary -> int
-            type Items = Vocabulary -> (int * TokenedText) seq
+            type Items = Vocabulary -> (int * TokenedText) array

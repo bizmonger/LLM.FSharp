@@ -3,6 +3,7 @@
 open FsUnit
 open NUnit.Framework
 open LLM.DataPreparation.EmbeddingLayer.WeightMatrix
+open LLM.DataPreparation.EmbeddingLayer
 
 [<Test>]
 let ``build vocabulary`` () =
@@ -102,13 +103,16 @@ let ``Calculate context vector`` () =
     let dimensions = 4
     let embeddingsDictionary = vocabulary |> Embeddings.initialize dimensions
 
-    let textInput = "some text goes"
+    let textInput   = "some text goes"
     let inputTokens = textInput |> Tokenizer.extractTokens vocabulary
-    //let inputEmbeddings = Tokens.ToInputEmbeddings
     let secondToken = inputTokens.[1]
-    let query  = secondToken
 
-    //let scores = query |> Compute.scores inputTokens |> Array.except query
+    let tokenEmbeddings      = inputTokens     |> Tokens.toTokenEmbeddings embeddingsDictionary
+    let positionalEmbeddings = inputTokens     |> Tokens.toPositionalEmbeddings dimensions
+    let inputEmbeddings      = tokenEmbeddings |> Tokens.toInputEmbeddings positionalEmbeddings
+
+    let query  = inputEmbeddings.[secondToken]
+    let scores = query |> Compute.attentionScores inputEmbeddings
 
     // Test
     ()

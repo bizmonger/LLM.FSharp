@@ -50,9 +50,9 @@ module WeightMatrix =
             
     module Tokens =
 
-        let positionalEmbedding : Tokens.ToPositionalEmbeddings =
+        let toPositionalEmbeddings : Tokens.ToPositionalEmbeddings =
 
-            fun input dimensions ->
+            fun dimensions input ->
 
                 let addPositions token =
 
@@ -64,18 +64,19 @@ module WeightMatrix =
 
                     vector
 
-                let result = input |> Array.map addPositions
+                let positionalEmbeddings = input |> Array.map addPositions
             
-                result // 1.1, 1.2, 1.3
-                       // 2.1, 2.2, 3.3
-                       // 3.1, 3.2, 3.3
+                positionalEmbeddings 
+               // 1.1, 1.2, 1.3
+               // 2.1, 2.2, 3.3
+               // 3.1, 3.2, 3.3
 
-        let inputEmbedding : Token.ToInputEmbedding =
+        let toInputEmbeddings : Tokens.ToInputEmbeddings =
 
-            fun tokenEmbedding positionalEmbedding -> [||]
+            fun tokenEmbeddings positionalEmbeddings -> [||]
 
         let toTokenEmbeddings : Tokens.ToTokenEmbeddings =
 
-            fun tokens lookup -> 
+            fun lookup tokens -> 
             
                 tokens |> Array.map(fun t -> t |> Token.toEmbedding lookup)
