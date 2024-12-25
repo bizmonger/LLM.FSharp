@@ -42,8 +42,6 @@ module Operations =
 
             type Initialize = unit           -> AttentionWeight
             type Normalize  = AttentionScore -> AttentionWeight
-            type Key        = InputEmbedding -> AttentionWeights
-            type Value      = InputEmbedding -> AttentionWeights
 
         module ContextVector =
 
@@ -51,9 +49,11 @@ module Operations =
 
     module SelfAttention =
 
-        module QueryVector = type Compute = InputEmbedding -> QueryWeightParameters
-        module KeyVector   = type Compute = InputEmbedding -> KeyWeightParameters
-        module ValueVector = type Compute = InputEmbedding -> ValueWeightParameters
+        module WeightParameters = type Initialize = unit -> WeightParameters
+
+        module QueryVector = type Compute = InputEmbedding -> QueryWeightParameters -> QueryVector
+        module KeyVector   = type Compute = InputEmbedding -> KeyWeightParameters   -> KeyVector
+        module ValueVector = type Compute = InputEmbedding -> ValueWeightParameters -> ValueVector
 
     module Tokenizer =
 

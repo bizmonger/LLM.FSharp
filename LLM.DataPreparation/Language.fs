@@ -45,16 +45,16 @@ module Language =
 
     // Training
     //---------------------------------------------
-    type Weight  = float array
-    type Weights = Weight array
+    type WeightParameters = float array
+    type WeightParametersMatrix = WeightParameters array
 
     type QueryVector = float array
     type KeyVector   = float array
     type ValueVector = float array
 
-    type QueryWeightParameters = Weights
-    type KeyWeightParameters   = Weights
-    type ValueWeightParameters = Weights
+    type QueryWeightParameters = WeightParametersMatrix
+    type KeyWeightParameters   = WeightParametersMatrix
+    type ValueWeightParameters = WeightParametersMatrix
 
     // Input Target Pairs
     //---------------------------------------------
