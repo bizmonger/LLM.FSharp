@@ -34,7 +34,7 @@ let ``get input/target pairs`` () =
     let vocabulary = content |> DataSource.createVocabulary
     let vectorSize = 4
     let stride = 1
-    let contentTokens = vocabulary |> Tokenizer.extractTokens content
+    let contentTokens = content |> Tokenizer.extractTokens vocabulary
 
     // Test
     let input, target  = Tokenizer.inputTargetPairs contentTokens vectorSize stride
@@ -86,6 +86,29 @@ let ``Add positional encoding to token`` () =
     let dimensions = 4
     let embeddingsDictionary = vocabulary |> Embeddings.initialize dimensions 
     let token = 3
+
+    // Test
+    ()
+
+    // Verify
+    Assert.Fail()
+
+[<Test>]
+let ``Calculate context vector`` () =
+
+    // Setup
+    let content    = "First of all, some text goes here."
+    let vocabulary = content |> DataSource.createVocabulary
+    let dimensions = 4
+    let embeddingsDictionary = vocabulary |> Embeddings.initialize dimensions
+
+    let textInput = "some text goes"
+    let inputTokens = textInput |> Tokenizer.extractTokens vocabulary
+    //let inputEmbeddings = Tokens.ToInputEmbeddings
+    let secondToken = inputTokens.[1]
+    let query  = secondToken
+
+    //let scores = query |> Compute.scores inputTokens |> Array.except query
 
     // Test
     ()

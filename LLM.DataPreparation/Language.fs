@@ -11,7 +11,7 @@ module Language =
     type TokenedText = BytePairEncoding
 
     type Token  = int
-    type Tokens = Token seq
+    type Tokens = Token array
     type Vocabulary = Dictionary<TokenedText,Token>
 
     // Vectors
@@ -39,6 +39,7 @@ module Language =
     type InputEmbeddings = VectorEmbedding array
 
     type AttentionScore        = float array
+    type AttentionScores       = float array array
     type AttentionWeight       = float array
     type AttentionWeights      = float array array
     type InputAttentionWeights = AttentionWeights

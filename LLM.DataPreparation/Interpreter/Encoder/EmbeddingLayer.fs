@@ -44,9 +44,9 @@ module WeightMatrix =
 
     module Token =
 
-        let tokenEmbedding : Token.ToTokenEmbedding =
+        let toEmbedding : Token.ToTokenEmbedding =
 
-            fun token embeddingsDict -> embeddingsDict.[token]
+            fun lookup token -> lookup.[token]
             
     module Tokens =
 
@@ -73,3 +73,9 @@ module WeightMatrix =
         let inputEmbedding : Token.ToInputEmbedding =
 
             fun tokenEmbedding positionalEmbedding -> [||]
+
+        let toTokenEmbeddings : Tokens.ToTokenEmbeddings =
+
+            fun tokens lookup -> 
+            
+                tokens |> Array.map(fun t -> t |> Token.toEmbedding lookup)

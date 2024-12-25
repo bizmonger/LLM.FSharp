@@ -3,7 +3,6 @@
 open System
 open System.Collections.Generic
 open System.Text.RegularExpressions
-open LLM.DataPreparation.Language
 open LLM.DataPreparation.Operations
 
 module Tokenizer =
@@ -25,7 +24,9 @@ module Tokenizer =
 
             (inputResult,TargetResult)
 
-    let extractTokens (inputString: Text) (vocabulary: Vocabulary) : int[] =
+    let extractTokens : Text.ToTokens =
+
+        fun vocabulary inputString ->
         
         // Step 1: Tokenize the input string using a regular expression that handles partial words and prefixes.
         // Using a regex pattern that is more aligned with subword tokens (if BPE is used).

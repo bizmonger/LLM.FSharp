@@ -8,22 +8,22 @@ module Operations =
 
         type ToTokenizedText = Text -> TokenedText
         type ToTokenMap      = Text -> (TokenedText * Tokens)
-        type ToTokens        = Text -> Tokens
+        type ToTokens        = Vocabulary -> Text -> Tokens
         type ToVocabulary    = Text -> Vocabulary
-        type ToEmbedding     = Text -> ContentTokens -> Vocabulary -> TokenVectors
+        type ToEmbedding     = Text -> ContentTokens -> Vocabulary -> TokenEmbeddings
 
     module TokenedText = type ToTokens = TokenedText -> Tokens
 
     module Token = 
     
         type toText           = Token -> Text
-        type ToTokenEmbedding = Token -> EmbeddingsDictionary -> TokenEmbedding
+        type ToTokenEmbedding = EmbeddingsDictionary -> Token -> TokenEmbedding
         type ToInputEmbedding = TokenEmbedding -> PositionalEmbedding -> InputEmbedding
         type ToContextVector  = InputEmbedding -> InputEmbeddings     -> ContextVector
 
     module Tokens =
     
-        type ToTokenEmbeddings      = Tokens -> Vocabulary  -> DimensionCount -> TokenEmbeddings
+        type ToTokenEmbeddings      = Tokens -> EmbeddingsDictionary -> TokenEmbeddings
         type ToPositionalEmbeddings = InputTokens -> DimensionCount -> PositionalEmbeddings
         type ToInputEmbeddings      = TokenEmbeddings -> PositionalEmbeddings -> InputEmbeddings
 
@@ -36,7 +36,11 @@ module Operations =
 
         module Score =
 
-            type ComputeScore = InputEmbedding -> InputEmbedding -> AttentionScore
+            type Compute = InputEmbedding -> InputEmbedding -> AttentionScore
+
+        module Scores =
+
+            type Compute = InputEmbeddings -> InputEmbeddings -> AttentionScores
 
         module Weights =
 
