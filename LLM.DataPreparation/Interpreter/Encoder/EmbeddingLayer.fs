@@ -83,8 +83,7 @@ module WeightMatrix =
                 for index = 0 to count do
 
                     let inputEmbedding = Compute.vectorSum tokenEmbeddings.[index] positionalEmbeddings.[index]
-                    elements <- Array.append elements inputEmbedding
-                    vectors  <- vectors |> Array.append [|elements|]
+                    vectors.[index] <- inputEmbedding
 
                 vectors
 

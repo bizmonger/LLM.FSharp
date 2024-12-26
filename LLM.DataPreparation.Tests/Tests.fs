@@ -189,7 +189,7 @@ let ``Compute vector sum`` () =
     inputEmbeddings |> should equal [|2.1;2.2;2.3|]
 
 [<Test>]
-[<Ignore("Ignore a test")>]
+//[<Ignore("Ignore a test")>]
 let ``Calculate input embedding`` () =
 
     // Setup
@@ -200,14 +200,15 @@ let ``Calculate input embedding`` () =
 
     let positionalEmbeddings = [|
                                 [|1.1;1.2;1.3|]
-                                [|1.1;1.2;1.3|]
-                              |]
+                                [|2.1;2.2;2.3|]
+                               |]
 
     // Test
     let inputEmbeddings = Tokens.toInputEmbeddings tokenEmbeddings positionalEmbeddings
 
     // Verify
     inputEmbeddings.[0] |> should equal [|2.1;2.2;2.3|]
+    inputEmbeddings.[1] |> should equal [|3.1;3.2;3.3|]
 
 //[<Test>]
 //let ``decode something`` () =
