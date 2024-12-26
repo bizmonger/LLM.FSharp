@@ -96,7 +96,7 @@ let ``Add positional encoding to token`` () =
     Assert.Fail()
 
 [<Test>]
-[<Ignore("Ignore a test")>]
+//[<Ignore("Ignore a test")>]
 let ``Calculate attention scores`` () =
 
     // Setup
@@ -113,7 +113,7 @@ let ``Calculate attention scores`` () =
     let positionalEmbeddings = inputTokens     |> Tokens.toPositionalEmbeddings dimensions
     let inputEmbeddings      = tokenEmbeddings |> Tokens.toInputEmbeddings positionalEmbeddings
 
-    let query  = inputEmbeddings.[secondToken]
+    let query = inputEmbeddings.[secondToken]
     
     // Test
     let scores = query |> Compute.attentionScores inputEmbeddings
@@ -189,7 +189,6 @@ let ``Compute vector sum`` () =
     inputEmbeddings |> should equal [|2.1;2.2;2.3|]
 
 [<Test>]
-//[<Ignore("Ignore a test")>]
 let ``Calculate input embedding`` () =
 
     // Setup
