@@ -40,7 +40,7 @@ module Operations =
 
         module Scores =
 
-            type Compute = InputEmbeddings -> InputEmbedding -> AttentionScores
+            type Compute = InputEmbeddings -> QueryVector -> AttentionScores
 
         module Weights =
 

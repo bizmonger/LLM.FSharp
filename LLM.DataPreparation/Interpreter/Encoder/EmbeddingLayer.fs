@@ -59,7 +59,7 @@ module WeightMatrix =
                     let index = Array.IndexOf(input, token)
                     let mutable vector = Array.create dimensions 0.0
 
-                    for i = 1 to dimensions do
+                    for i = 0 to dimensions - 1 do
                         vector.[i] <- float(index) + 0.1 + float(i)
 
                     vector
@@ -73,7 +73,9 @@ module WeightMatrix =
 
         let toInputEmbeddings : Tokens.ToInputEmbeddings =
 
-            fun tokenEmbeddings positionalEmbeddings -> [||]
+            fun tokenEmbeddings positionalEmbeddings -> 
+            
+                [||]
 
         let toTokenEmbeddings : Tokens.ToTokenEmbeddings =
 

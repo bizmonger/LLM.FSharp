@@ -79,6 +79,7 @@ let ``Retrieve a token embedding`` () =
     embedding |> Array.isEmpty |> should equal false
 
 [<Test>]
+[<Ignore("Ignore a test")>]
 let ``Add positional encoding to token`` () =
 
     // Setup
@@ -95,6 +96,32 @@ let ``Add positional encoding to token`` () =
     Assert.Fail()
 
 [<Test>]
+let ``Calculate attention scores`` () =
+
+    // Setup
+    let content    = "First of all, some text goes here."
+    let vocabulary = content |> DataSource.createVocabulary
+    let dimensions = 4
+    let embeddingsDictionary = vocabulary |> Embeddings.initialize dimensions
+
+    let textInput   = "some text goes"
+    let inputTokens = textInput |> Tokenizer.extractTokens vocabulary
+    let secondToken = inputTokens.[1]
+
+    let tokenEmbeddings      = inputTokens     |> Tokens.toTokenEmbeddings embeddingsDictionary
+    let positionalEmbeddings = inputTokens     |> Tokens.toPositionalEmbeddings dimensions
+    let inputEmbeddings      = tokenEmbeddings |> Tokens.toInputEmbeddings positionalEmbeddings
+
+    let query  = inputEmbeddings.[secondToken]
+    
+    // Test
+    let scores = query |> Compute.attentionScores inputEmbeddings
+
+    // Verify
+    Assert.Fail()
+
+[<Test>]
+[<Ignore("Ignore a test")>]
 let ``Calculate context vector`` () =
 
     // Setup
@@ -120,6 +147,32 @@ let ``Calculate context vector`` () =
     // Verify
     Assert.Fail()
     
+[<Test>]
+let ``Calculate vector product`` () =
+
+    // Setup
+    let vectorA = [|1.0;2.0|]
+    let vectorB = [|2.0;3.0|]
+
+    // Test
+    let vectorProduct = Compute.vectorProduct vectorA vectorB
+
+    // Verify
+    vectorProduct.[0] |> should equal 2.0
+    vectorProduct.[1] |> should equal 6.0
+
+[<Test>]
+let ``Calculate dot product`` () =
+
+    // Setup
+    let vectorA = [|1.0;2.0|]
+    let vectorB = [|2.0;3.0|]
+
+    // Test
+    let dotProduct = Compute.dotProduct vectorA vectorB
+
+    // Verify
+    dotProduct |> should equal 8
 
 //[<Test>]
 //let ``decode something`` () =

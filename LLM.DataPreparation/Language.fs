@@ -9,8 +9,11 @@ module Language =
     type Text = string
     type BytePairEncoding = string
     type TokenedText = BytePairEncoding
+    type DotProduct = float
 
-    type Token  = int
+    type Token = int
+    type RelativeToken = int
+    type EmbeddingIndex = int
     type Tokens = Token array
     type Vocabulary = Dictionary<TokenedText,Token>
 
