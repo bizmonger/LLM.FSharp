@@ -66,10 +66,7 @@ module WeightMatrix =
 
                 let positionalEmbeddings = input |> Array.map addPositions
             
-                positionalEmbeddings 
-               // 1.1, 1.2, 1.3
-               // 2.1, 2.2, 3.3
-               // 3.1, 3.2, 3.3
+                positionalEmbeddings
 
         let toInputEmbeddings : Tokens.ToInputEmbeddings =
 
