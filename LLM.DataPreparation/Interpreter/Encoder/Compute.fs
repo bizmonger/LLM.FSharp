@@ -24,4 +24,13 @@ module Compute =
         fun inputEmbeddings queryVector ->
 
             let scores = inputEmbeddings |> Array.map (fun embedding -> dotProduct embedding queryVector)
-            [|scores|]
+            scores
+
+    let attentionWeights : Attention.Weights.Compute =
+
+        fun scores ->
+
+            let sum = scores |> Array.sum
+            let weights = scores |> Array.map(fun s -> s/sum)
+
+            weights

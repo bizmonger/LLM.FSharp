@@ -41,10 +41,10 @@ module Language =
     type InputEmbedding  = VectorEmbedding
     type InputEmbeddings = VectorEmbedding array
 
-    type AttentionScore        = float array
-    type AttentionScores       = float array array
-    type AttentionWeight       = float array
-    type AttentionWeights      = float array array
+    type AttentionScore        = float
+    type AttentionScores       = float array
+    type AttentionWeight       = float
+    type AttentionWeights      = float array
     type InputAttentionWeights = AttentionWeights
 
     // Training

@@ -44,8 +44,8 @@ module Operations =
 
         module Weights =
 
-            type Initialize = unit           -> AttentionWeight
-            type Normalize  = AttentionScore -> AttentionWeight
+            type Initialize = unit            -> AttentionWeights
+            type Compute    = AttentionScores -> AttentionWeights
 
         module ContextVector =
 

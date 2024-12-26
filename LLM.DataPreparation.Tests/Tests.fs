@@ -4,6 +4,7 @@ open FsUnit
 open NUnit.Framework
 open LLM.DataPreparation.EmbeddingLayer.WeightMatrix
 open LLM.DataPreparation.EmbeddingLayer
+open System
 
 [<Test>]
 let ``build vocabulary`` () =
@@ -96,27 +97,26 @@ let ``Add positional encoding to token`` () =
     Assert.Fail()
 
 [<Test>]
-//[<Ignore("Ignore a test")>]
+[<Ignore("Ignore a test")>]
 let ``Calculate attention scores`` () =
 
     // Setup
-    let content    = "First of all, some text goes here."
+    let content    = "Your journey starts with one step. Each additonal step is one step closer to your destination."
     let vocabulary = content |> DataSource.createVocabulary
     let dimensions = 4
     let embeddingsDictionary = vocabulary |> Embeddings.initialize dimensions
 
-    let textInput   = "some text goes"
+    let textInput   = "Your journey starts with one step"
     let inputTokens = textInput |> Tokenizer.extractTokens vocabulary
-    let secondToken = inputTokens.[1]
 
     let tokenEmbeddings      = inputTokens     |> Tokens.toTokenEmbeddings embeddingsDictionary
     let positionalEmbeddings = inputTokens     |> Tokens.toPositionalEmbeddings dimensions
     let inputEmbeddings      = tokenEmbeddings |> Tokens.toInputEmbeddings positionalEmbeddings
 
-    let query = inputEmbeddings.[secondToken]
+    let queryItem = inputEmbeddings.[1]
     
     // Test
-    let scores = query |> Compute.attentionScores inputEmbeddings
+    let scores = queryItem |> Compute.attentionScores inputEmbeddings
 
     // Verify
     Assert.Fail()
@@ -174,6 +174,50 @@ let ``Calculate dot product`` () =
 
     // Verify
     dotProduct |> should equal 8
+
+[<Test>]
+let ``Calculate attention score`` () =
+
+    // Setup
+    let vectorInput1 = [|0.43;0.15;0.89|]
+    let vectorQuery  = [|0.55;0.87;0.66|]
+
+    // Test
+    let score = Compute.dotProduct vectorInput1 vectorQuery
+
+    // Verify
+    score |> should equal 0.9544
+
+[<Test>]
+let ``Calculate attention weight`` () =
+
+    // Setup
+    let inputEmbeddings = [|
+                            [|0.43;0.15;0.89|]
+                            [|0.55;0.87;0.66|]
+                            [|0.57;0.85;0.64|]
+                            [|0.22;0.58;0.33|]
+                            [|0.77;0.25;0.10|]
+                            [|0.05;0.80;0.55|]
+                          |]
+
+    let vectorQuery  = [|0.55;0.87;0.66|]
+
+    let scores = Compute.attentionScores inputEmbeddings vectorQuery
+
+    // Test
+    let weights = Compute.attentionWeights scores
+
+    // Verify
+    let rounded = weights |> Array.map(fun w -> Math.Round(w,4))
+
+    rounded |> should equal [|Math.Round(0.1455,4);
+                              Math.Round(0.2278,4);
+                              Math.Round(0.2249,4);
+                              Math.Round(0.1285,4);
+                              Math.Round(0.1077,4);
+                              Math.Round(0.1656,4);
+                            |]
 
 [<Test>]
 let ``Compute vector sum`` () =
