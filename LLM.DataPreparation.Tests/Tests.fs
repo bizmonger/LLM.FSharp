@@ -201,12 +201,13 @@ let ``Calculate attention weight`` () =
                             [|0.05;0.80;0.55|]
                           |]
 
-    let vectorQuery  = [|0.55;0.87;0.66|]
+    let vectorQuery = [|0.55;0.87;0.66|]
 
     let scores = Compute.attentionScores inputEmbeddings vectorQuery
 
     // Test
     let weights = Compute.attentionWeights scores
+    let sum = weights |> Array.sum
 
     // Verify
     let rounded = weights |> Array.map(fun w -> Math.Round(w,4))
@@ -218,6 +219,31 @@ let ``Calculate attention weight`` () =
                               Math.Round(0.1077,4);
                               Math.Round(0.1656,4);
                             |]
+
+[<Test>]
+let ``Normalize attention weights`` () =
+
+    // Setup
+    let inputEmbeddings = [|
+                            [|0.43;0.15;0.89|]
+                            [|0.55;0.87;0.66|]
+                            [|0.57;0.85;0.64|]
+                            [|0.22;0.58;0.33|]
+                            [|0.77;0.25;0.10|]
+                            [|0.05;0.80;0.55|]
+                          |]
+
+    let vectorQuery = [|0.55;0.87;0.66|]
+
+    let scores  = Compute.attentionScores inputEmbeddings vectorQuery
+    
+    // Test
+    let weights = Compute.softmaxSpan (ReadOnlySpan<float>(scores))
+    let sum = weights |> Array.sum
+
+    // Verify
+    weights |> Array.length |> should equal 6
+    sum |> should equal 1
 
 [<Test>]
 let ``Compute vector sum`` () =
