@@ -73,9 +73,20 @@ module WeightMatrix =
 
         let toInputEmbeddings : Tokens.ToInputEmbeddings =
 
-            fun tokenEmbeddings positionalEmbeddings -> 
-            
-                [||]
+            fun tokenEmbeddings positionalEmbeddings ->
+
+                let mutable vectors  : float array array = Array.init tokenEmbeddings.Length (fun _ -> [|0.0|])
+                let mutable elements : float array = Array.empty
+
+                let count = tokenEmbeddings.Length - 1
+
+                for index = 0 to count do
+
+                    let inputEmbedding = Compute.vectorSum tokenEmbeddings.[index] positionalEmbeddings.[index]
+                    elements <- Array.append elements inputEmbedding
+                    vectors  <- vectors |> Array.append [|elements|]
+
+                vectors
 
         let toTokenEmbeddings : Tokens.ToTokenEmbeddings =
 

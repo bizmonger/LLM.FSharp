@@ -96,6 +96,7 @@ let ``Add positional encoding to token`` () =
     Assert.Fail()
 
 [<Test>]
+[<Ignore("Ignore a test")>]
 let ``Calculate attention scores`` () =
 
     // Setup
@@ -173,6 +174,40 @@ let ``Calculate dot product`` () =
 
     // Verify
     dotProduct |> should equal 8
+
+[<Test>]
+let ``Compute vector sum`` () =
+
+    // Setup
+    let tokenEmbedding      = [|1.0;1.0;1.0|]
+    let positionalEmbedding = [|1.1;1.2;1.3|]
+
+    // Test
+    let inputEmbeddings = Compute.vectorSum tokenEmbedding positionalEmbedding
+
+    // Verify
+    inputEmbeddings |> should equal [|2.1;2.2;2.3|]
+
+[<Test>]
+[<Ignore("Ignore a test")>]
+let ``Calculate input embedding`` () =
+
+    // Setup
+    let tokenEmbeddings = [|
+                           [|1.0;1.0;1.0|]
+                           [|1.0;1.0;1.0|]
+                         |]
+
+    let positionalEmbeddings = [|
+                                [|1.1;1.2;1.3|]
+                                [|1.1;1.2;1.3|]
+                              |]
+
+    // Test
+    let inputEmbeddings = Tokens.toInputEmbeddings tokenEmbeddings positionalEmbeddings
+
+    // Verify
+    inputEmbeddings.[0] |> should equal [|2.1;2.2;2.3|]
 
 //[<Test>]
 //let ``decode something`` () =

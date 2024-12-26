@@ -1,10 +1,13 @@
 ﻿namespace LLM.DataPreparation.EmbeddingLayer
 
-open System.Collections.Generic
-open LLM.DataPreparation.Language
 open LLM.DataPreparation.Operations
 
 module Compute =
+
+    let vectorSum (vectorA:float array) (vectorB:float array) : float array =
+
+        let result = vectorA |> Array.mapi(fun i v -> vectorA.[i] + vectorB.[i])
+        result
 
     let vectorProduct (vectorA:float array) (vectorB:float array) : float array =
 
