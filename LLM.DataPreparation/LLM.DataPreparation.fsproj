@@ -10,13 +10,12 @@
     <Compile Include="Language.fs" />
     <Compile Include="Operations.fs" />
     <Compile Include="Interpreter\Decoder\SelfAttention.fs" />
+    <Compile Include="Interpreter\Encoder\Weights.fs" />
     <Compile Include="Interpreter\Encoder\Compute.fs" />
     <Compile Include="Interpreter\Encoder\EmbeddingLayer.fs" />
     <Compile Include="Interpreter\Encoder\DataSource.fs" />
     <Compile Include="Interpreter\Encoder\Tokenizer.fs" />
   </ItemGroup>
-
-  <ItemGroup />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ML" Version="4.0.0" />

@@ -1,7 +1,7 @@
 ﻿namespace LLM.DataPreparation.EmbeddingLayer
 
-open LLM.DataPreparation.Operations
 open System
+open LLM.DataPreparation.Operations
 
 module Compute =
 

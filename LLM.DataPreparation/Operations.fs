@@ -51,8 +51,6 @@ module Operations =
 
             type Compute = InputEmbeddings -> InputAttentionWeights -> ContextVector
 
-    module SelfAttention =
-
         module WeightParameters = type Initialize = unit -> WeightParameters
 
         module QueryVector = type Compute = InputEmbedding -> QueryWeightParameters -> QueryVector
