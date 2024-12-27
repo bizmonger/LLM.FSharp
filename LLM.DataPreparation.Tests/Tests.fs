@@ -201,7 +201,7 @@ let ``Calculate attention weight`` () =
                             [|0.05;0.80;0.55|]
                           |]
 
-    let vectorQuery = [|0.55;0.87;0.66|]
+    let vectorQuery = inputEmbeddings.[1]
 
     let scores = Compute.attentionScores inputEmbeddings vectorQuery
 
@@ -212,12 +212,12 @@ let ``Calculate attention weight`` () =
     // Verify
     let rounded = weights |> Array.map(fun w -> Math.Round(w,4))
 
-    rounded |> should equal [|Math.Round(0.1455,4);
-                              Math.Round(0.2278,4);
-                              Math.Round(0.2249,4);
-                              Math.Round(0.1285,4);
-                              Math.Round(0.1077,4);
-                              Math.Round(0.1656,4);
+    rounded |> should equal [|Math.Round(0.1385,4);
+                              Math.Round(0.2379,4);
+                              Math.Round(0.2333,4);
+                              Math.Round(0.1240,4);
+                              Math.Round(0.1082,4);
+                              Math.Round(0.1581,4);
                             |]
 
 [<Test>]
@@ -238,12 +238,37 @@ let ``Normalize attention weights`` () =
     let scores  = Compute.attentionScores inputEmbeddings vectorQuery
     
     // Test
-    let weights = Compute.softmaxSpan (ReadOnlySpan<float>(scores))
+    let weights = Compute.attentionWeights (scores)
     let sum = weights |> Array.sum
 
     // Verify
     weights |> Array.length |> should equal 6
     sum |> should equal 1
+
+[<Test>]
+let ``Calculate context vector - 2`` () =
+
+    // Setup
+    let inputEmbeddings = [|
+                            [|0.2;0.5|]
+                            [|0.8;0.1|]
+                            [|0.3;0.9|]
+                          |]
+
+    let vectorQuery = inputEmbeddings.[0]
+
+    let scores  = Compute.attentionScores inputEmbeddings vectorQuery
+    let weights = Compute.attentionWeights scores
+
+    let token_1_Weight    = weights.[0]
+    let token_1_embedding = inputEmbeddings.[0]
+    let product = token_1_embedding |> Array.map(fun v -> token_1_Weight * v)
+
+    // Test
+    
+
+    // Verify
+    ()
 
 [<Test>]
 let ``Compute vector sum`` () =

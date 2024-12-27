@@ -7,6 +7,11 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LLM.DataPreparation.Tests",
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LLM.DataPreparation", "LLM.DataPreparation\LLM.DataPreparation.fsproj", "{0C946DE1-CF89-433B-86BB-48F682A94E32}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{2E04479A-BF6D-426A-B8F7-C97F3EDE1AC2}"
+	ProjectSection(SolutionItems) = preProject
+		LLM.DataPreparation\Caluculate Context Vector.md = LLM.DataPreparation\Caluculate Context Vector.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
