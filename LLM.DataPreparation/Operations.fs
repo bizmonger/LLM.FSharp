@@ -59,6 +59,10 @@ module Operations =
         module KeyVector   = type Compute = InputEmbedding -> KeyWeightParameters   -> KeyVector
         module ValueVector = type Compute = InputEmbedding -> ValueWeightParameters -> ValueVector
 
+        module Lookup =
+
+            type TokenToWeights = Token -> WeightParameters
+
     module Tokenizer =
 
         type Encode = Text.ToEmbedding
