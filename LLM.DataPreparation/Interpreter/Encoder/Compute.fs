@@ -73,7 +73,7 @@ module Compute =
                         result.[i] <- expValues.[i] / sumExp
                     result
 
-    module MuliplicationOf =
+    module ProductOf =
 
         let numberAndVector(number:float) (vector:float[]) =
 

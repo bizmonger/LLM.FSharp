@@ -260,10 +260,38 @@ let ``Calculate context vector - 2`` () =
     let x1_scores  = Compute.attentionScores inputEmbeddings x1_query
     let x1_weights = Compute.attentionWeights x1_scores
 
-    let x1_embeddingWeight = MuliplicationOf.numberAndVector x1_weights.[0] inputEmbeddings.[0]
+    // Test
+    let x1_embeddingWeight = ProductOf.numberAndVector x1_weights.[0] inputEmbeddings.[0]
+
+    // Verify
+    Math.Round(x1_embeddingWeight.[0], 4) |> should equal 0.0631
+    Math.Round(x1_embeddingWeight.[1], 4) |> should equal 0.1578
+
+[<Test>]
+let ``Calculate context vector - 3`` () =
+
+    // Setup
+    let inputEmbeddings = [|
+                            [|0.2;0.5|]
+                            [|0.8;0.1|]
+                            [|0.3;0.9|]
+                          |]
+
+    let mutable productVectors = []
+
+    for queryIndex = 0 to (inputEmbeddings.Length - 1) do
+
+        let query   = inputEmbeddings.[queryIndex]
+        let scores  = Compute.attentionScores inputEmbeddings query
+        let weights = Compute.attentionWeights scores
+
+        for weightIndex = 0 to (weights.Length - 1) do
+
+            let productVector = ProductOf.numberAndVector weights.[weightIndex] inputEmbeddings.[weightIndex]
+            productVectors <- productVectors @ [weights.[weightIndex],productVector]
 
     // Test
-    
+
     // Verify
     ()
 
