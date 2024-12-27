@@ -5,6 +5,7 @@ open NUnit.Framework
 open LLM.DataPreparation.EmbeddingLayer.WeightMatrix
 open LLM.DataPreparation.EmbeddingLayer
 open System
+open LLM.DataPreparation.EmbeddingLayer.Compute
 
 [<Test>]
 let ``build vocabulary`` () =
@@ -255,18 +256,14 @@ let ``Calculate context vector - 2`` () =
                             [|0.3;0.9|]
                           |]
 
-    let vectorQuery = inputEmbeddings.[0]
+    let x1_query   = inputEmbeddings.[0]
+    let x1_scores  = Compute.attentionScores inputEmbeddings x1_query
+    let x1_weights = Compute.attentionWeights x1_scores
 
-    let scores  = Compute.attentionScores inputEmbeddings vectorQuery
-    let weights = Compute.attentionWeights scores
-
-    let token_1_Weight    = weights.[0]
-    let token_1_embedding = inputEmbeddings.[0]
-    let product = token_1_embedding |> Array.map(fun v -> token_1_Weight * v)
+    let x1_embeddingWeight = MuliplicationOf.numberAndVector x1_weights.[0] inputEmbeddings.[0]
 
     // Test
     
-
     // Verify
     ()
 

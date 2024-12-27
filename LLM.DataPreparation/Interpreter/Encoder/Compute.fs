@@ -73,29 +73,9 @@ module Compute =
                         result.[i] <- expValues.[i] / sumExp
                     result
 
-    ///// Softmax function for attention weights, ensuring positivity.
-    //let attentionWeights : Attention.Weights.Compute =
+    module MuliplicationOf =
 
-    //    fun scores ->
+        let numberAndVector(number:float) (vector:float[]) =
 
-    //        // 1. Find the maximum value in the input array to prevent overflow.
-    //        let maxVal = Array.max scores
-
-    //        // 2. Calculate the exponentials, shifting by the maximum value.
-    //        let expValues = scores |> Array.map (fun x -> Math.Exp(x - maxVal))
-
-    //        // 3. Calculate the sum of the exponentials.
-    //        let sumExp = Array.sum expValues
-
-    //        // 4. Divide each exponential by the sum to get the softmax probabilities.
-    //        if sumExp = 0.0 then
-
-    //            // Handle the case where all inputs are very negative (resulting in expValues all being 0)
-    //            // Returning a uniform distribution to avoid NaN or division by zero.
-    //            let length = scores.Length
-
-    //            if length = 0 
-    //            then [||] // Return an empty array if the input is empty
-    //            else Array.init length (fun _ -> 1.0 / (float length))
-
-    //        else expValues |> Array.map (fun x -> x / sumExp)
+            let product = vector |> Array.map(fun v -> number * v)
+            product
