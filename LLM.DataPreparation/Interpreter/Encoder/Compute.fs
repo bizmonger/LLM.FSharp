@@ -27,6 +27,13 @@ module Compute =
             let scores = inputEmbeddings |> Array.map (fun embedding -> queryVector |> dotProduct embedding)
             scores
 
+    let contextVector : Attention.ContextVector.Compute =
+
+        fun inputEmbeddings weights ->
+
+            let result = inputEmbeddings |> Array.map (fun embedding -> weights |> dotProduct embedding)
+            result
+
     /// Optimized version using Span<T> for potential performance improvements.
     let attentionWeights : Attention.Weights.Compute =
 

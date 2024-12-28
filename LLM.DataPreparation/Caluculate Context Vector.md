@@ -48,30 +48,30 @@ Attention scores for "sat" (Query):
 
 The attention scores are often scaled (divided by the square root of the key vector dimension) to stabilize training. In our 2-dimensional example, we would divide by sqrt(2) ≈ 1.414. Let's skip scaling for this simple example to keep the numbers cleaner.
 
-We apply the softmax function to normalize the scores into probabilities (attention weights). Here are the accurate calculations:
+We apply the softmax function to normalize the scores into probabilities (attention weights). Here are the accurate calculations (using more decimal places for precision):
 
 Attention weights for "The":
 
-Softmax(0.29, 0.21, 0.51) ≈ [0.3155, 0.2913, 0.3932]
+Softmax(0.29, 0.21, 0.51) ≈ [0.3155377, 0.2912780, 0.3931842]
 Attention weights for "cat":
 
-Softmax(0.21, 0.65, 0.33) ≈ [0.2003, 0.5371, 0.2626]
+Softmax(0.21, 0.65, 0.33) ≈ [0.2717241, 0.4219079, 0.3063680]
 Attention weights for "sat":
 
-Softmax(0.51, 0.33, 0.90) ≈ [0.2259, 0.1507, 0.6234]
+Softmax(0.51, 0.33, 0.90) ≈ [0.3019095, 0.2521760, 0.4459145]
 5. Weighted Sum of Value Vectors:
 
-Finally, we calculate the context vector by taking a weighted sum of the Value vectors, where the weights are the attention probabilities. Using the more precise softmax results:
+Finally, we calculate the context vector by taking a weighted sum of the Value vectors, where the weights are the attention probabilities. Using the accurate softmax results:
 
 Context vector for "The":
 
-(0.3155 * [0.2, 0.5]) + (0.2913 * [0.8, 0.1]) + (0.3932 * [0.3, 0.9]) ≈ [0.0631, 0.1578] + [0.2330, 0.0291] + [0.11796, 0.35388] ≈ [0.4141, 0.5408] approximately
+(0.3155 * [0.2, 0.5]) + (0.2913 * [0.8, 0.1]) + (0.3932 * [0.3, 0.9]) ≈ [0.0631, 0.1578] + [0.2330, 0.0291] + [0.11796, 0.35388] ≈ [0.4141, 0.5408] approximately (using rounded softmax values for this calculation)
 Context vector for "cat":
 
-(0.2003 * [0.2, 0.5]) + (0.5371 * [0.8, 0.1]) + (0.2626 * [0.3, 0.9]) ≈ [0.0401, 0.1002] + [0.4297, 0.0537] + [0.0788, 0.2363] ≈ [0.5486, 0.3902] approximately
+(0.2717 * [0.2, 0.5]) + (0.4219 * [0.8, 0.1]) + (0.3064 * [0.3, 0.9]) ≈ [0.05434, 0.13585] + [0.33752, 0.04219] + [0.09192, 0.27576] ≈ [0.4838, 0.4538] approximately (using rounded softmax values for this calculation)
 Context vector for "sat":
 
-(0.2259 * [0.2, 0.5]) + (0.1507 * [0.8, 0.1]) + (0.6234 * [0.3, 0.9]) ≈ [0.0452, 0.1130] + [0.1206, 0.0151] + [0.1870, 0.5611] ≈ [0.3528, 0.6892] approximately
+(0.3019 * [0.2, 0.5]) + (0.2522 * [0.8, 0.1]) + (0.4459 * [0.3, 0.9]) ≈ [0.06038, 0.15095] + [0.20176, 0.02522] + [0.13377, 0.40131] ≈ [0.3959, 0.5775] approximately (using rounded softmax values for this calculation)
 Result:
 
 We now have a context vector for each word in the sentence. These context vectors are weighted representations of the input sequence, where the weights are determined by the attention mechanism.
@@ -82,4 +82,3 @@ This is a simplified example. In real models, the dimensionality of the embeddin
 The Query, Key, and Value vectors are usually learned linear transformations of the input embeddings.
 The scaling factor (dividing by sqrt(dk)) is crucial for training stability, especially with higher-dimensional vectors.
 This process is repeated for each word in the input sequence, producing a sequence of context vectors.
-I have now corrected the softmax calculations and the final context vector calculations to be more precise. Using rounded numbers throughout the example led to significant inaccuracies. I have also added more intermediate steps to make the calculations clearer.

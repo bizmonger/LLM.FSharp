@@ -30,3 +30,12 @@ module DataSource =
                 |> Dictionary
 
             sortedDict
+
+    let toTokenLookup (inputDict: Dictionary<'K, 'V>) =
+
+        let swappedDict = Dictionary<'V, 'K>()
+
+        for KeyValue(key, value) in inputDict do
+            swappedDict.[value] <- key
+
+        swappedDict

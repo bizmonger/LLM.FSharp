@@ -1,10 +1,11 @@
 ﻿module LLM.DataPreparation.Tests
 
+open System
 open FsUnit
 open NUnit.Framework
-open LLM.DataPreparation.EmbeddingLayer.WeightMatrix
+open LLM.DataPreparation.Language
 open LLM.DataPreparation.EmbeddingLayer
-open System
+open LLM.DataPreparation.EmbeddingLayer.WeightMatrix
 open LLM.DataPreparation.EmbeddingLayer.Compute
 
 [<Test>]
@@ -271,24 +272,40 @@ let ``Calculate context vector - 2`` () =
 let ``Calculate context vector - 3`` () =
 
     // Setup
-    let inputEmbeddings = [|
-                            [|0.2;0.5|]
-                            [|0.8;0.1|]
-                            [|0.3;0.9|]
-                          |]
+    let content = "The cat sat on the hat"
+    let vocabulary  = content    |> DataSource.createVocabulary
+    let tokenToText = vocabulary |> DataSource.toTokenLookup
 
-    let mutable productVectors = []
+    let embeddingsDictionary = EmbeddingsDictionary()
+    embeddingsDictionary.Add(vocabulary.["The"],[|0.2;0.5|])
+    embeddingsDictionary.Add(vocabulary.["cat"],[|0.8;0.1|])
+    embeddingsDictionary.Add(vocabulary.["sat"],[|0.3;0.9|])
+
+    let inputText  = "The cat sat"
+    let inputEmbeddings = inputText |> Tokenizer.extractTokens vocabulary 
+                                    |> Array.map(fun t -> embeddingsDictionary.[t])
+
+    let mutable queryProducts = []
 
     for queryIndex = 0 to (inputEmbeddings.Length - 1) do
 
-        let query   = inputEmbeddings.[queryIndex]
-        let scores  = Compute.attentionScores inputEmbeddings query
-        let weights = Compute.attentionWeights scores
+        let queryVector   = inputEmbeddings.[queryIndex]
+        let scores        = Compute.attentionScores inputEmbeddings queryVector
+        let weights       = Compute.attentionWeights scores
+        let contextVector = Compute.contextVector inputEmbeddings weights
 
         for weightIndex = 0 to (weights.Length - 1) do
 
-            let productVector = ProductOf.numberAndVector weights.[weightIndex] inputEmbeddings.[weightIndex]
-            productVectors <- productVectors @ [weights.[weightIndex],productVector]
+            let queryProduct : QueryProduct = {
+                Text      = tokenToText.[queryIndex]
+                Token     = queryIndex
+                Embedding = inputEmbeddings.[queryIndex]
+                Scores    = scores
+                Weights   = weights
+                ContextVector = contextVector
+            }
+
+            queryProducts <- queryProducts @ [queryProduct]
 
     // Test
 

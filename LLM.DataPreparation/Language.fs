@@ -15,7 +15,8 @@ module Language =
     type RelativeToken = int
     type EmbeddingIndex = int
     type Tokens = Token array
-    type Vocabulary = Dictionary<TokenedText,Token>
+    type Vocabulary  = Dictionary<TokenedText,Token>
+    type TokenToText = Dictionary<Token,TokenedText>
 
     // Vectors
     //---------------------------------------------
@@ -46,6 +47,15 @@ module Language =
     type AttentionWeight       = float
     type AttentionWeights      = float array
     type InputAttentionWeights = AttentionWeights
+
+    type QueryProduct = {
+        Text          : string
+        Token         : int
+        Embedding     : float array
+        Scores        : float array
+        Weights       : float array
+        ContextVector : float array
+    }
 
     // Training
     //---------------------------------------------
