@@ -15,11 +15,13 @@ module Compute =
     let vectorProduct (vectorA:float array) (vectorB:float array) : float array =
 
         if vectorA.Length = vectorB.Length then
+
             let result = vectorA |> Array.mapi(fun i v -> vectorA.[i] * vectorB.[i])
             result
 
         else
-            let vectorLarge,vectorOther = 
+            let vectorLarge,vectorOther =
+
                 if vectorA.Length >= vectorB.Length
                 then vectorA,vectorB
                 else vectorB,vectorA
