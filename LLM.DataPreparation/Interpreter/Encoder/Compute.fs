@@ -31,7 +31,7 @@ module Compute =
 
         fun inputEmbeddings weights ->
 
-            let result = inputEmbeddings |> Array.map (fun embedding -> weights |> dotProduct embedding)
+            let result = weights |> Array.mapi(fun i w -> inputEmbeddings.[i] |> dotProduct [|w|])
             result
 
     /// Optimized version using Span<T> for potential performance improvements.
