@@ -15,7 +15,7 @@ module Compute =
         let result = vectorA |> Array.mapi(fun i v -> vectorA.[i] * vectorB.[i])
         result
 
-    let dotProduct (vectorA:float array) (vectorB:float array) : float =
+    let multiplyAndSumVectors (vectorA:float array) (vectorB:float array) : float =
 
         let result = vectorA |> Array.mapi(fun i v -> vectorA.[i] * vectorB.[i]) |> Array.sum
         result
@@ -24,15 +24,22 @@ module Compute =
 
         fun inputEmbeddings queryVector ->
 
-            let scores = inputEmbeddings |> Array.map (fun embedding -> queryVector |> dotProduct embedding)
+            let scores = inputEmbeddings |> Array.map (fun embedding -> queryVector |> multiplyAndSumVectors embedding)
             scores
 
     let contextVector : Attention.ContextVector.Compute =
 
         fun inputEmbeddings weights ->
 
-            let result = weights |> Array.mapi(fun i w -> inputEmbeddings.[i] |> dotProduct [|w|])
-            result
+            let mutable items = []
+
+            for i = 0 to (inputEmbeddings.Length - 1) do
+
+                items <- [(weights.[i], inputEmbeddings.[i])] |> List.append items
+
+            //let result = items |> List.map(fun (w,e) -> [|w|] * e)
+
+            [||]
 
     /// Optimized version using Span<T> for potential performance improvements.
     let attentionWeights : Attention.Weights.Compute =
