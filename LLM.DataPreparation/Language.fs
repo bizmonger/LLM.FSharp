@@ -49,12 +49,22 @@ module Language =
     type InputAttentionWeights = AttentionWeights
 
     type QueryProduct = {
-        Text          : string
-        Token         : int
-        Embedding     : float array
-        Scores        : float array
-        Weights       : float array
-        ContextVector : float array
+        Text           : string
+        Token          : int
+        InputEmbedding : float array
+        Scores         : float array
+        Weights        : float array
+        ContextVector  : float array
+    }
+
+    type WeightAndInputEmbedding = {
+        Weight : float
+        InputEmbedding : float array
+    }
+
+    type WeightAndInputEmbeddingProduct = {
+        WeightAndInputEmbedding: WeightAndInputEmbedding
+        Product : float array
     }
 
     // Training

@@ -151,7 +151,7 @@ let ``Calculate context vector`` () =
     Assert.Fail()
     
 [<Test>]
-let ``Calculate vector product`` () =
+let ``Calculate vector product with equal size`` () =
 
     // Setup
     let vectorA = [|1.0;2.0|]
@@ -163,6 +163,19 @@ let ``Calculate vector product`` () =
     // Verify
     vectorProduct.[0] |> should equal 2.0
     vectorProduct.[1] |> should equal 6.0
+
+[<Test>]
+let ``Calculate vector product with non equal size`` () =
+
+    // Setup
+    let vectorA = [|0.3155|]
+    let vectorB = [|0.2;0.5|]
+
+    // Test
+    let vectorProduct = Compute.vectorProduct vectorA vectorB
+
+    // Verify
+    vectorProduct |> should equal [|0.0631; 0.15775|]
 
 [<Test>]
 let ``Calculate dot product`` () =
@@ -299,7 +312,7 @@ let ``Calculate context vector - 3`` () =
             let queryProduct : QueryProduct = {
                 Text      = tokenToText.[queryIndex]
                 Token     = queryIndex
-                Embedding = inputEmbeddings.[queryIndex]
+                InputEmbedding = inputEmbeddings.[queryIndex]
                 Scores    = scores
                 Weights   = weights
                 ContextVector = contextVector

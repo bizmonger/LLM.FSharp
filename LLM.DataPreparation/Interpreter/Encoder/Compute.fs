@@ -2,6 +2,8 @@
 
 open System
 open LLM.DataPreparation.Operations
+open LLM.DataPreparation
+open LLM.DataPreparation.Language
 
 module Compute =
 
@@ -12,8 +14,26 @@ module Compute =
 
     let vectorProduct (vectorA:float array) (vectorB:float array) : float array =
 
-        let result = vectorA |> Array.mapi(fun i v -> vectorA.[i] * vectorB.[i])
-        result
+        if vectorA.Length = vectorB.Length then
+            let result = vectorA |> Array.mapi(fun i v -> vectorA.[i] * vectorB.[i])
+            result
+
+        else
+            let vectorLarge,vectorOther = 
+                if vectorA.Length >= vectorB.Length
+                then vectorA,vectorB
+                else vectorB,vectorA
+
+            let mutable items = []
+
+            for i = 0 to (vectorLarge.Length - 1) do
+
+                for k = 0 to (vectorOther.Length - 1) do
+
+                    let result = vectorLarge.[i] * vectorOther.[k]
+                    items <- items @ [result]
+
+            items |> List.toArray
 
     let multiplyAndSumVectors (vectorA:float array) (vectorB:float array) : float =
 
@@ -35,9 +55,16 @@ module Compute =
 
             for i = 0 to (inputEmbeddings.Length - 1) do
 
-                items <- [(weights.[i], inputEmbeddings.[i])] |> List.append items
+                let item : WeightAndInputEmbedding = {
+                    Weight = weights.[i]
+                    InputEmbedding = inputEmbeddings.[i]
+                }
 
-            //let result = items |> List.map(fun (w,e) -> [|w|] * e)
+                items <- [item] |> List.append items
+
+            let result = items |> List.map(fun item -> { WeightAndInputEmbedding = item; 
+                                                         Product = vectorProduct [|item.Weight|] item.InputEmbedding 
+                                                       })
 
             [||]
 
