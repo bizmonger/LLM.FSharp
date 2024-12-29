@@ -1,15 +1,15 @@
 ﻿namespace LLM.DataPreparation.EmbeddingLayer
 
 open System
+open LLM.DataPreparation.Language
 open LLM.DataPreparation.Operations
 open LLM.DataPreparation
-open LLM.DataPreparation.Language
 
 module Compute =
 
     let vectorSum (vectorA:float array) (vectorB:float array) : float array =
 
-        let result = vectorA |> Array.mapi(fun i v -> vectorA.[i] + vectorB.[i])
+        let result = vectorA |> Array.mapi(fun i _ -> vectorA.[i] + vectorB.[i])
         result
 
     let vectorProduct (vectorA:float array) (vectorB:float array) : float array =
@@ -68,7 +68,12 @@ module Compute =
                                                          Product = vectorProduct [|item.Weight|] item.InputEmbedding 
                                                        })
 
-            [||]
+            let products = result |> List.map(fun v -> v.Product)
+            let arraySize = products.Head.Length
+            let seed : float array = Array.zeroCreate arraySize
+            let sum = products |> List.fold (fun acc v -> vectorSum v acc) seed
+
+            sum
 
     /// Optimized version using Span<T> for potential performance improvements.
     let attentionWeights : Attention.Weights.Compute =

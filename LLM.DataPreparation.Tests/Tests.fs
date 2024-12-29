@@ -310,6 +310,7 @@ let ``Calculate context vector - 3`` () =
         for weightIndex = 0 to (weights.Length - 1) do
 
             let queryProduct : QueryProduct = {
+
                 Text      = tokenToText.[queryIndex]
                 Token     = queryIndex
                 InputEmbedding = inputEmbeddings.[queryIndex]
