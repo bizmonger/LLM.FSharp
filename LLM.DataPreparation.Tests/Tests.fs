@@ -279,6 +279,33 @@ let ``Calculate context vector`` () =
     (contextVectorDetails.Head).ContextVector.[1] |> should equal 0.54076247503470021
 
 [<Test>]
+let ``Calculate context vector - 3`` () =
+
+    // Setup
+    let content = "Your journey starts with one step. This step can be steep. But it can end with success if commited from start to finish."
+    let vocabulary  = content    |> DataSource.createVocabulary
+    let tokenToText = vocabulary |> DataSource.toTokenLookup
+
+    let embeddingsDictionary = EmbeddingsDictionary()
+    embeddingsDictionary.Add(vocabulary.["Your"]   ,[|0.43;0.15;0.89|])
+    embeddingsDictionary.Add(vocabulary.["journey"],[|0.55;0.87;0.66|])
+    embeddingsDictionary.Add(vocabulary.["starts"] ,[|0.57;0.85;0.64|])
+    embeddingsDictionary.Add(vocabulary.["with"]   ,[|0.22;0.58;0.33|])
+    embeddingsDictionary.Add(vocabulary.["one"]    ,[|0.77;0.25;0.10|])
+    embeddingsDictionary.Add(vocabulary.["step"]   ,[|0.05;0.80;0.55|])
+
+    let inputText = "Your journey starts with one step"
+
+    // Test
+    let contextVectorDetails = inputText |> Tokenizer.extractTokens vocabulary 
+                                         |> Array.map(fun t -> embeddingsDictionary.[t])
+                                         |> Compute.contextVectorDetails tokenToText
+    
+    // Verify
+    let contextVectors = contextVectorDetails |> Array.ofList |> Array.map(fun v -> v.ContextVector)
+    (contextVectors.[1]) |> should equal [|0.44186574785129207; 0.6514819780302219; 0.56830888772572918|]
+
+[<Test>]
 let ``Compute vector sum`` () =
 
     // Setup
