@@ -1,6 +1,7 @@
 ﻿namespace LLM.DataPreparation.EmbeddingLayer
 
 open System
+open System.Collections.Generic
 open LLM.DataPreparation.Language
 open LLM.DataPreparation.Operations
 open LLM.DataPreparation
@@ -120,6 +121,31 @@ module Compute =
                     for i = 0 to scores.Length - 1 do
                         result.[i] <- expValues.[i] / sumExp
                     result
+
+    let contextVectorDetails (tokenToText:Dictionary<Token, TokenedText>) (inputEmbeddings:TokenEmbedding array) : QueryProduct list =
+
+        let mutable queryProducts = []
+
+        for queryIndex = 0 to (inputEmbeddings.Length - 1) do
+
+            let queryVector   = inputEmbeddings.[queryIndex]
+            let scores        = attentionScores inputEmbeddings queryVector
+            let weights       = attentionWeights scores
+            let contextVector = contextVector inputEmbeddings weights
+
+            let queryProduct : QueryProduct = {
+
+                Text      = tokenToText.[queryIndex]
+                Token     = queryIndex
+                InputEmbedding = inputEmbeddings.[queryIndex]
+                Scores    = scores
+                Weights   = weights
+                ContextVector = contextVector
+            }
+
+            queryProducts <- queryProducts @ [queryProduct]
+
+        queryProducts
 
     module ProductOf =
 

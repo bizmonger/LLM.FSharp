@@ -122,33 +122,6 @@ let ``Calculate attention scores`` () =
 
     // Verify
     Assert.Fail()
-
-[<Test>]
-[<Ignore("Ignore a test")>]
-let ``Calculate context vector`` () =
-
-    // Setup
-    let content    = "First of all, some text goes here."
-    let vocabulary = content |> DataSource.createVocabulary
-    let dimensions = 4
-    let embeddingsDictionary = vocabulary |> Embeddings.initialize dimensions
-
-    let textInput   = "some text goes"
-    let inputTokens = textInput |> Tokenizer.extractTokens vocabulary
-    let secondToken = inputTokens.[1]
-
-    let tokenEmbeddings      = inputTokens     |> Tokens.toTokenEmbeddings embeddingsDictionary
-    let positionalEmbeddings = inputTokens     |> Tokens.toPositionalEmbeddings dimensions
-    let inputEmbeddings      = tokenEmbeddings |> Tokens.toInputEmbeddings positionalEmbeddings
-
-    let query  = inputEmbeddings.[secondToken]
-    let scores = query |> Compute.attentionScores inputEmbeddings
-
-    // Test
-    ()
-
-    // Verify
-    Assert.Fail()
     
 [<Test>]
 let ``Calculate vector product with equal size`` () =
@@ -282,7 +255,7 @@ let ``Calculate context vector - 2`` () =
     Math.Round(x1_embeddingWeight.[1], 4) |> should equal 0.1578
 
 [<Test>]
-let ``Calculate context vector - 3`` () =
+let ``Calculate context vector`` () =
 
     // Setup
     let content = "The cat sat on the hat"
@@ -294,37 +267,16 @@ let ``Calculate context vector - 3`` () =
     embeddingsDictionary.Add(vocabulary.["cat"],[|0.8;0.1|])
     embeddingsDictionary.Add(vocabulary.["sat"],[|0.3;0.9|])
 
-    let inputText  = "The cat sat"
-    let inputEmbeddings = inputText |> Tokenizer.extractTokens vocabulary 
-                                    |> Array.map(fun t -> embeddingsDictionary.[t])
-
-    let mutable queryProducts = []
-
-    for queryIndex = 0 to (inputEmbeddings.Length - 1) do
-
-        let queryVector   = inputEmbeddings.[queryIndex]
-        let scores        = Compute.attentionScores inputEmbeddings queryVector
-        let weights       = Compute.attentionWeights scores
-        let contextVector = Compute.contextVector inputEmbeddings weights
-
-        for weightIndex = 0 to (weights.Length - 1) do
-
-            let queryProduct : QueryProduct = {
-
-                Text      = tokenToText.[queryIndex]
-                Token     = queryIndex
-                InputEmbedding = inputEmbeddings.[queryIndex]
-                Scores    = scores
-                Weights   = weights
-                ContextVector = contextVector
-            }
-
-            queryProducts <- queryProducts @ [queryProduct]
+    let inputText = "The cat sat"
 
     // Test
+    let contextVectorDetails = inputText |> Tokenizer.extractTokens vocabulary 
+                                         |> Array.map(fun t -> embeddingsDictionary.[t])
+                                         |> Compute.contextVectorDetails tokenToText
 
     // Verify
-    ()
+    (contextVectorDetails.Head).ContextVector.[0] |> should equal 0.41408524643709554
+    (contextVectorDetails.Head).ContextVector.[1] |> should equal 0.54076247503470021
 
 [<Test>]
 let ``Compute vector sum`` () =
