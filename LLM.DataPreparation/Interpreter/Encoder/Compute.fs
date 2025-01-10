@@ -142,7 +142,6 @@ module Compute =
         let queryProducts = inputEmbeddings |> Array.mapi toQueryProduct
 
         queryProducts |> Array.toList
-                                                 
 
     module ProductOf =
 
