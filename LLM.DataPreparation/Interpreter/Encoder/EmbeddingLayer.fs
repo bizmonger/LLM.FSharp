@@ -89,3 +89,17 @@ module WeightMatrix =
             fun lookup tokens -> 
             
                 tokens |> Array.map(fun t -> t |> Token.toEmbedding lookup)
+
+    module Initialize =
+
+        let matrix (dimensions:int) (embeddingsCount:int) =
+
+            let range = 3
+            let dict = Dictionary<int, float[]>()
+
+            for i = 0 to embeddingsCount - 1 do
+
+                let floatArray = Vector.initializeWeight dimensions range
+                dict.[i] <- floatArray
+
+            dict

@@ -124,28 +124,25 @@ module Compute =
 
     let contextVectorDetails (tokenToText:Dictionary<Token, TokenedText>) (inputEmbeddings:TokenEmbedding array) : QueryProduct list =
 
-        let mutable queryProducts = []
+        let toQueryProduct queryIndex embedding =
 
-        for queryIndex = 0 to (inputEmbeddings.Length - 1) do
-
-            let queryVector   = inputEmbeddings.[queryIndex]
+            let queryVector   = embedding
             let scores        = attentionScores inputEmbeddings queryVector
             let weights       = attentionWeights scores
             let contextVector = contextVector inputEmbeddings weights
 
-            let queryProduct : QueryProduct = {
-
-                Text      = tokenToText.[queryIndex]
-                Token     = queryIndex
-                InputEmbedding = inputEmbeddings.[queryIndex]
-                Scores    = scores
-                Weights   = weights
-                ContextVector = contextVector
+            { Text    = tokenToText.[queryIndex]
+              Token   = queryIndex
+              InputEmbedding = embedding
+              Scores  = scores
+              Weights = weights
+              ContextVector = contextVector
             }
 
-            queryProducts <- queryProducts @ [queryProduct]
+        let queryProducts = inputEmbeddings |> Array.mapi toQueryProduct
 
-        queryProducts
+        queryProducts |> Array.toList
+                                                 
 
     module ProductOf =
 
