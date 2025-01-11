@@ -292,6 +292,20 @@ let ``Compute vector sum`` () =
     inputEmbeddings |> should equal [|2.1;2.2;2.3|]
 
 [<Test>]
+let ``Computing matrix multiplication resilts in correct row count and column count of product matrix``() =
+
+    // Setup
+    let matrixA = Array2D.init 2 3 (fun _ _ -> 0.0)
+    let matrixB = Array2D.init 3 2 (fun _ _ -> 0.0)
+
+    // Test
+    let matrixC = Compute.matrixMultiplication matrixA matrixB
+
+    // Verify
+    matrixC |> Array2D.length1 |> should equal 2
+    matrixC |> Array2D.length2 |> should equal 2
+
+[<Test>]
 let ``Calculate input embedding`` () =
 
     // Setup

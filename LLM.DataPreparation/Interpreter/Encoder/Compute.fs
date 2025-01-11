@@ -48,8 +48,8 @@ module Compute =
         if matrixA.Length <> matrixB.Length 
         then failwith "matrices cannnot be multiplied due to row count of 1st matrix not equaling column count of 2nd matrix"            
         else
-            let matrixARowCount    = matrixA[0].Length
-            let matrixBColumnCount = matrixB.Length
+            let matrixARowCount    = matrixA |> Array2D.length1
+            let matrixBColumnCount = matrixB |> Array2D.length2
             let mutable matrixC = Array2D.init matrixARowCount matrixBColumnCount (fun r c -> 0)
             
             matrixC
