@@ -306,6 +306,19 @@ let ``Computing matrix multiplication resilts in correct row count and column co
     matrixC |> Array2D.length2 |> should equal 2
 
 [<Test>]
+let ``Compute matrix multiplication``() =
+
+    // Setup
+    let matrixA = Array2D.init 2 3 (fun _ _ -> 0.0)
+    let matrixB = Array2D.init 3 2 (fun _ _ -> 0.0)
+
+    // Test
+    let matrixC = Compute.matrixMultiplication matrixA matrixB
+
+    // Verify
+    failwith "TODO"
+
+[<Test>]
 let ``Calculate input embedding`` () =
 
     // Setup
