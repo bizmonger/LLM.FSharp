@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{2E04479A-BF6D-426A-B8F7-C97F3EDE1AC2}"
 	ProjectSection(SolutionItems) = preProject
 		LLM.DataPreparation\Caluculate Context Vector.md = LLM.DataPreparation\Caluculate Context Vector.md
+		Matrix Multiplication.md = Matrix Multiplication.md
 	EndProjectSection
 EndProject
 Global

@@ -158,7 +158,7 @@ let ``Calculate dot product`` () =
     let vectorB = [|2.0;3.0|]
 
     // Test
-    let dotProduct = Compute.multiplyAndSumVectors vectorA vectorB
+    let dotProduct = Compute.vectorMultiplicationAndSum vectorA vectorB
 
     // Verify
     dotProduct |> should equal 8
@@ -171,7 +171,7 @@ let ``Calculate attention score`` () =
     let vectorQuery  = [|0.55;0.87;0.66|]
 
     // Test
-    let score = Compute.multiplyAndSumVectors vectorInput1 vectorQuery
+    let score = Compute.vectorMultiplicationAndSum vectorInput1 vectorQuery
 
     // Verify
     score |> should equal 0.9544

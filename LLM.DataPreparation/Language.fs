@@ -9,7 +9,8 @@ module Language =
     type Text = string
     type BytePairEncoding = string
     type TokenedText = BytePairEncoding
-    type DotProduct = float
+    type DotProduct  = float
+    type Matrix      = float array array
 
     type Token = int
     type RelativeToken = int

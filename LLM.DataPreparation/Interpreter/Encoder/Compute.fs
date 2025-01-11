@@ -38,16 +38,27 @@ module Compute =
 
             items |> List.toArray
 
-    let multiplyAndSumVectors (vectorA:float array) (vectorB:float array) : float =
+    let vectorMultiplicationAndSum (vectorA:float array) (vectorB:float array) : float =
 
         let result = vectorA |> Array.mapi(fun i v -> vectorA.[i] * vectorB.[i]) |> Array.sum
         result
+
+    let matrixMultiplication (matrixA:Matrix) (matrixB:Matrix) =
+
+        if matrixA.Length <> matrixB.Length 
+        then failwith "matrices cannnot be multiplied due to row count of 1st matrix not equaling column count of 2nd matrix"            
+        else
+            let matrixARowCount    = matrixA[0].Length
+            let matrixBColumnCount = matrixB.Length
+            let mutable matrixC = Array2D.init matrixARowCount matrixBColumnCount (fun r c -> 0)
+            
+            matrixC
 
     let attentionScores : Attention.Scores.Compute =
 
         fun inputEmbeddings queryVector ->
 
-            let scores = inputEmbeddings |> Array.map (fun embedding -> queryVector |> multiplyAndSumVectors embedding)
+            let scores = inputEmbeddings |> Array.map (fun embedding -> queryVector |> vectorMultiplicationAndSum embedding)
             scores
 
     let contextVector : Attention.ContextVector.Compute =
